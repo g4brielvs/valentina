@@ -342,7 +342,7 @@ main#home div {
   text-align: center; }
 main#home a#login {
   border-radius: 0.2rem;
-  border: 0.05rem solid #fff;
+  border: 0.0625rem solid #fff;
   color: #fff;
   display: block;
   margin-top: 6rem;
@@ -369,9 +369,9 @@ main#home div.steps {
       width: 23.23176%; }
       main#home div.steps:last-child {
         margin-right: 0; } }
-  main#home div.steps i {
-    display: block;
-    font-size: 3rem; }
+  main#home div.steps img {
+    height: 5rem;
+    width: 5rem; }
   main#home div.steps h3 {
     margin-top: 2rem; }
 
