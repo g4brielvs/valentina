@@ -6,11 +6,11 @@
 
 ```console
 $ bower install
-$ sass valentina/core/static/css/main.sass valentina/core/static/css/main.css
+$ sass valentina/home/static/css/main.sass valentina/core/static/css/main.css
 ```
 
 Alternatively you can set a watcher:
 
 ```console
-sass --watch valentina/core/static/css/main.sass:valentina/core/static/css/main.css
+sass --watch valentina/home/static/css/main.sass:valentina/home/static/css/main.css
 ```
