@@ -1,8 +1,9 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.shortcuts import resolve_url
 
 
-class TestGetHome(TestCase):
+class TestGetHomeWithoutUserAuthenticated(TestCase):
 
     def setUp(self):
         self.resp = self.client.get(resolve_url('home'))
@@ -16,3 +17,12 @@ class TestGetHome(TestCase):
     def test_login_link(self):
         expected = 'href="{}"'.format('/oauth/login/facebook/')
         self.assertContains(self.resp, expected)
+
+
+class TestGetHomeWithUserAuthenticated(TestCase):
+
+    def test_get(self):
+        User.objects.create_user('olivia', password='password')
+        self.client.login(username='olivia', password='password')
+        resp = self.client.get(resolve_url('home'))
+        self.assertRedirects(resp, resolve_url('app'))
