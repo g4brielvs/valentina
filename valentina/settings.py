@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'test_without_migrations',
     'django_extensions',
     'social.apps.django_app.default',
-    'valentina.core',
+    'valentina.home',
 ]
 
 MIDDLEWARE_CLASSES = [

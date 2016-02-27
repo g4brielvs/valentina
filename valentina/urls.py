@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from valentina.core.views import home, app, logout
+from valentina.home.views import home, app, logout
 
 urlpatterns = [
     url(r'^$', home, name='home'),
