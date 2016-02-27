@@ -25,4 +25,4 @@ class TestGetHomeWithUserAuthenticated(TestCase):
         User.objects.create_user('olivia', password='password')
         self.client.login(username='olivia', password='password')
         resp = self.client.get(resolve_url('home'))
-        self.assertRedirects(resp, resolve_url('app'))
+        self.assertRedirects(resp, resolve_url('welcome'))

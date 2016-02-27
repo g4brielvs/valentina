@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from valentina.home.views import home, app, logout
+from valentina.home.views import home, logout
+from valentina.app.views import welcome
 
 urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'^oauth/', include('social.apps.django_app.urls', namespace='oauth')),
-    url(r'^app/$', app, name='app'),
+    url(r'^app/$', welcome, name='welcome'),
     url(r'^logout/$', logout, name='logout'),
     url(r'^admin/', admin.site.urls),
 ]
