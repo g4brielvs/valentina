@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'test_without_migrations',
     'django_extensions',
+    'social.apps.django_app.default',
     'valentina.core',
 ]
 
@@ -121,3 +122,24 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# python-social-auth
+# http://python-social-auth.readthedocs.org
+
+SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
+SOCIAL_AUTH_LOGIN_URL = '/oauth/login/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/app/'
+SOCIAL_AUTH_URL_NAMESPACE = 'oauth'
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)

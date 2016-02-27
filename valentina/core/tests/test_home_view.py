@@ -1,8 +1,6 @@
 from django.test import TestCase
 from django.shortcuts import resolve_url
 
-from unittest import skip
-
 
 class TestGetHome(TestCase):
 
@@ -15,7 +13,6 @@ class TestGetHome(TestCase):
     def test_template(self):
         self.assertTemplateUsed(self.resp, 'home.html')
 
-    @skip('next step')
     def test_login_link(self):
-        expected = 'href="{}"'.format(resolve_url('login'))
+        expected = 'href="{}"'.format('/oauth/login/facebook/')
         self.assertContains(self.resp, expected)

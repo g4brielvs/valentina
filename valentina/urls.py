@@ -13,11 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import include, url
 from django.contrib import admin
-from valentina.core.views import home
+from valentina.core.views import home, app
 
 urlpatterns = [
     url(r'^$', home, name='home'),
+    url(r'^oauth/', include('social.apps.django_app.urls', namespace='oauth')),
+    url(r'^app/$', app, name='app'),
     url(r'^admin/', admin.site.urls),
 ]
