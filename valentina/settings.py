@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'social.apps.django_app.default',
     'valentina.home',
+    'valentina.app.apps.AppConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -128,11 +129,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # http://python-social-auth.readthedocs.org
 
 SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email']
 SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
-SOCIAL_AUTH_LOGIN_URL = '/oauth/login/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/app/'
+SOCIAL_AUTH_LOGIN_URL = '/oauth/login/'
 SOCIAL_AUTH_URL_NAMESPACE = 'oauth'
+
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'locale': LANGUAGE_CODE,
+    'fields': 'name, email, gender, timezone'
+}
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
@@ -142,4 +149,17 @@ AUTHENTICATION_BACKENDS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
+)
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    'valentina.app.oauth.save_profile',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
 )
