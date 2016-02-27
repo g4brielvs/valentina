@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>{% block title %}Valentina{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  </head>
+
+  <body>
+
+    <main id="home" class="outer_container">
+
+      <div class="inner_container">
+        <div class="wrapper">
+          <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"/>
+          </h1>
+          <h2>Aqui a gente expica a ideia em uma frase</h2>
+          <a id="login" href="/oauth/facebook"><i class="fa fa-facebook-official"></i>Entrar com o Facebook</a>
+        </div>
+      </div><!-- end div.inner_container -->
+
+      <div class="inner_container">
+        <div class="steps"><i class="fa fa-search"></i>
+          <h3>Encontre o perfil de quem te assediou</h3>
+          <p>Com total discrição, ninguém fica sabendo</p>
+        </div>
+        <div class="steps"><i class="fa fa-send-o"></i>
+          <h3>Fale sobre quem tem assediou</h3>
+          <p>Com total provacidade, e somente com outras pessoas que passaram por isso</p>
+        </div>
+        <div class="steps"><i class="fa fa-user-secret"></i>
+          <h3>Todas as salas são espaços acolhedores</h3>
+          <p>A ideia é criar um ambeinte seguro para se falar sobre assédio</p>
+        </div>
+        <div class="steps"><i class="fa fa-comments-o"></i>
+          <h3>Reporte algo grosseiro ou perigoso</h3>
+          <p>Com um click você nos avisa se alguém está passando dos limites</p>
+        </div>
+      </div><!-- end div.inner_container -->
+
+    </main>
+
+    <footer class="outer_container">
+      <div class="inner_container">
+        <ul>
+          <li><a href="#">Sobre Valentina.vc</a>
+          </li>
+          <li><a href="#">Quem somos</a>
+          </li>
+          <li><a href="#">Ajuda</a>
+          </li>
+          <li><a href="#">Termos de Uso & Privacidade</a>
+          </li>
+          <li><a href="#">Contato</a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+
+  </body>
+</html>
