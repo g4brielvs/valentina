@@ -4,6 +4,6 @@
 .env
 .ropeproject/
 .sass-cache
+/static/
 __pycache__
 bower_components/
-static/
