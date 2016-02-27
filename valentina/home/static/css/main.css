@@ -230,7 +230,7 @@ picture {
       color: black; }
 
 html, body {
-  background-color: #004d73;
+  background-color: #644694;
   color: #fff;
   font-family: "Asap", sans-serif;
   margin: 0;
@@ -423,7 +423,7 @@ div#main {
       div#main:last-child {
         margin-right: 0; } }
   div#main div#search, div#main div#profile {
-    color: #004d73;
+    color: #644694;
     margin: 5rem; }
     div#main div#search img, div#main div#profile img {
       border-radius: 0.2rem; }
