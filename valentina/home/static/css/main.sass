@@ -2,7 +2,6 @@
 @import ../../../../bower_components/bourbon/app/assets/stylesheets/bourbon
 @import ../../../../bower_components/neat/app/assets/stylesheets/neat
 @import ../../../../bower_components/bitters/app/assets/stylesheets/base
-@import ../../../../bower_components/refills/source/stylesheets/refills/flashes
 
 // framework settings
 $grid-columns: 6
@@ -23,26 +22,6 @@ html, body
 .inner_container
   @include outer-container
 
-div#flashes
-  @include outer-container
-  position: relative
-  ul
-    position: absolute
-    width: 100%
-  .flash
-    opacity: .8
-    i
-      float: right
-      cursor: pointer
-  .flash-alert
-    @include flash($alert-color)
-  .flash-error
-    @include flash($error-color)
-  .flash-notice
-    @include flash($notice-color)
-  .flash-success
-    @include flash($success-color)
-
 main.home
 
   div.title, div.headline, div.login, div.step
@@ -56,14 +35,16 @@ main.home
       @include shift(4)
 
   div.headline
+    margin-top: 2rem
     @include media($desktop)
       @include span-columns(6)
       @include shift(3)
+    a
+      color: #fff
+      font-weight: $bold-weight
 
   h1
     margin-top: 6rem
-  h2
-    margin-top: 2rem
   img
     width: 100%
   div
@@ -94,43 +75,6 @@ main.home
     h3
       margin-top: 2rem
 
-div#sidebar
-  @include span-columns(6)
-  @include media($desktop)
-    @include span-columns(3)
-
-  h1
-    text-align: center
-    margin-top: 2rem
-    img
-      width: 62.8%
-
-  nav
-    font-size: .8rem
-    text-align: center
-    li
-      display: inline
-      margin-right: 1rem
-    a
-      color: $white
-      text-decoration: none
-
-div#main
-  @include span-columns(6)
-  background-color: $white
-  height: 100vh
-  @include media($desktop)
-    @include span-columns(9)
-
-  div#search, div#profile
-    color: $blue
-    margin: 5rem
-    img
-      border-radius: .2rem
-
-  div#search
-    display: none
-    
 footer
   font-size: .8rem
   margin-top: 6rem

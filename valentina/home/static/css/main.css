@@ -179,58 +179,6 @@ picture {
   margin: 0;
   max-width: 100%; }
 
-.flash-alert {
-  background-color: #fff6bf;
-  color: #8c7800;
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.75em;
-  padding: 0.75em;
-  text-align: center; }
-  .flash-alert a {
-    color: #594c00; }
-    .flash-alert a:focus, .flash-alert a:hover {
-      color: black; }
-
-.flash-error {
-  background-color: #fbe3e4;
-  color: #97161b;
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.75em;
-  padding: 0.75em;
-  text-align: center; }
-  .flash-error a {
-    color: #6a0f13; }
-    .flash-error a:focus, .flash-error a:hover {
-      color: #110203; }
-
-.flash-notice {
-  background-color: #e5edf8;
-  color: #244e87;
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.75em;
-  padding: 0.75em;
-  text-align: center; }
-  .flash-notice a {
-    color: #19375f; }
-    .flash-notice a:focus, .flash-notice a:hover {
-      color: #04080e; }
-
-.flash-success {
-  background-color: #e6efc2;
-  color: #56651a;
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.75em;
-  padding: 0.75em;
-  text-align: center; }
-  .flash-success a {
-    color: #333c10; }
-    .flash-success a:focus, .flash-success a:hover {
-      color: black; }
-
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans Condensed", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
   font-weight: 300; }
@@ -250,72 +198,6 @@ html, body {
     clear: both;
     content: "";
     display: table; }
-
-div#flashes {
-  max-width: 68em;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative; }
-  div#flashes::after {
-    clear: both;
-    content: "";
-    display: table; }
-  div#flashes ul {
-    position: absolute;
-    width: 100%; }
-  div#flashes .flash {
-    opacity: 0.8; }
-    div#flashes .flash i {
-      float: right;
-      cursor: pointer; }
-  div#flashes .flash-alert {
-    background-color: #fff6bf;
-    color: #8c7800;
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.75em;
-    padding: 0.75em;
-    text-align: center; }
-    div#flashes .flash-alert a {
-      color: #594c00; }
-      div#flashes .flash-alert a:focus, div#flashes .flash-alert a:hover {
-        color: black; }
-  div#flashes .flash-error {
-    background-color: #fbe3e4;
-    color: #97161b;
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.75em;
-    padding: 0.75em;
-    text-align: center; }
-    div#flashes .flash-error a {
-      color: #6a0f13; }
-      div#flashes .flash-error a:focus, div#flashes .flash-error a:hover {
-        color: #110203; }
-  div#flashes .flash-notice {
-    background-color: #e5edf8;
-    color: #244e87;
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.75em;
-    padding: 0.75em;
-    text-align: center; }
-    div#flashes .flash-notice a {
-      color: #19375f; }
-      div#flashes .flash-notice a:focus, div#flashes .flash-notice a:hover {
-        color: #04080e; }
-  div#flashes .flash-success {
-    background-color: #e6efc2;
-    color: #56651a;
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.75em;
-    padding: 0.75em;
-    text-align: center; }
-    div#flashes .flash-success a {
-      color: #333c10; }
-      div#flashes .flash-success a:focus, div#flashes .flash-success a:hover {
-        color: black; }
 
 main.home div.title, main.home div.headline, main.home div.login, main.home div.step {
   float: left;
@@ -338,19 +220,22 @@ main.home div.title, main.home div.headline, main.home div.login, main.home div.
     margin-left: 34.11922%; }
     main.home div.title:last-child, main.home div.login:last-child {
       margin-right: 0; } }
-@media screen and (min-width: 768px) {
-  main.home div.headline {
-    float: left;
-    display: block;
-    margin-right: 2.35765%;
-    width: 48.82117%;
-    margin-left: 25.58941%; }
-    main.home div.headline:last-child {
-      margin-right: 0; } }
+main.home div.headline {
+  margin-top: 2rem; }
+  @media screen and (min-width: 768px) {
+    main.home div.headline {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 48.82117%;
+      margin-left: 25.58941%; }
+      main.home div.headline:last-child {
+        margin-right: 0; } }
+  main.home div.headline a {
+    color: #fff;
+    font-weight: 700; }
 main.home h1 {
   margin-top: 6rem; }
-main.home h2 {
-  margin-top: 2rem; }
 main.home img {
   width: 100%; }
 main.home div {
@@ -389,61 +274,6 @@ main.home div.steps {
     width: 5rem; }
   main.home div.steps h3 {
     margin-top: 2rem; }
-
-div#sidebar {
-  float: left;
-  display: block;
-  margin-right: 4.82916%;
-  width: 100%; }
-  div#sidebar:last-child {
-    margin-right: 0; }
-  @media screen and (min-width: 768px) {
-    div#sidebar {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 23.23176%; }
-      div#sidebar:last-child {
-        margin-right: 0; } }
-  div#sidebar h1 {
-    text-align: center;
-    margin-top: 2rem; }
-    div#sidebar h1 img {
-      width: 62.8%; }
-  div#sidebar nav {
-    font-size: 0.8rem;
-    text-align: center; }
-    div#sidebar nav li {
-      display: inline;
-      margin-right: 1rem; }
-    div#sidebar nav a {
-      color: #fff;
-      text-decoration: none; }
-
-div#main {
-  float: left;
-  display: block;
-  margin-right: 4.82916%;
-  width: 100%;
-  background-color: #fff;
-  height: 100vh; }
-  div#main:last-child {
-    margin-right: 0; }
-  @media screen and (min-width: 768px) {
-    div#main {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 74.41059%; }
-      div#main:last-child {
-        margin-right: 0; } }
-  div#main div#search, div#main div#profile {
-    color: #644694;
-    margin: 5rem; }
-    div#main div#search img, div#main div#profile img {
-      border-radius: 0.2rem; }
-  div#main div#search {
-    display: none; }
 
 footer {
   font-size: 0.8rem;
