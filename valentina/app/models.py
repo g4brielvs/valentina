@@ -35,3 +35,40 @@ class Profile(models.Model):
         ordering = ['nickname']
         verbose_name = 'usuária'
         verbose_name_plural = 'usuárias'
+
+
+class Chat(models.Model):
+
+    person = models.CharField('identificador', max_length=255)
+    created_at = models.DateTimeField('criado em', auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'chat'
+        verbose_name_plural = 'chats'
+
+
+class Message(models.Model):
+
+    chat = models.ForeignKey('Chat')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_at = models.DateTimeField('criado em', auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'mensagem'
+        verbose_name_plural = 'mensagens'
+
+
+class Affiliation(models.Model):
+
+    chat = models.OneToOneField('Chat', on_delete=models.CASCADE,
+                                verbose_name='Chat')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE,
+                                verbose_name='Usuária')
+    alias = models.CharField('Nome fictício', max_length=140)
+
+    class Meta:
+        verbose_name = 'afiliação'
+        verbose_name_plural = 'afiliações'
