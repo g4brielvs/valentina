@@ -13,10 +13,16 @@ class TestGetApp(TestCase):
 
 class TestGetWithFemaleUserAuthenticated(TestGetApp):
 
-    def test_get_for_female_user(self):
+    def setUp(self):
+        super().setUp()
         self.client.login(username='olivia', password='password')
-        resp = self.client.get(resolve_url('app:welcome'))
-        self.assertEqual(200, resp.status_code)
+        self.resp = self.client.get(resolve_url('app:welcome'))
+
+    def test_get_for_female_user(self):
+        self.assertEqual(200, self.resp.status_code)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp, 'app/home.html')
 
 
 class TestGetAppWithMaleUser(TestCase):

@@ -1,0 +1,39 @@
+main
+
+  background-color: $main_background_color
+  height: 100vh
+  padding: 1rem
+  width: 100%
+  @include media($desktop)
+    width: 20rem
+
+  h2
+    margin-top: 2rem
+
+  nav.app
+    @include clearfix
+    h1
+      float: left
+      height: 2rem
+      max-height: 1.5rem
+      width: 50%
+    ul
+      float: right
+    li
+      display: inline
+      margin-left: .5rem
+      img
+        margin-top: 1.25rem
+        width: 1.5rem
+        height: 1.5rem
+
+  form
+    margin-top: 2rem
+
+  nav.chat_list
+    li
+      display: block
+      a
+        display: block
+        padding: .5rem
+        margin-top: 1rem

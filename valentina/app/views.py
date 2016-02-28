@@ -1,9 +1,7 @@
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.shortcuts import redirect, resolve_url
+from django.shortcuts import redirect, render, resolve_url
 from valentina.app.models import Profile
-# from django.shortcuts import render
 
 
 @login_required(login_url='/')
@@ -17,7 +15,7 @@ def welcome(request):
     if not _valid_user(request.user):
         return redirect(resolve_url('female_only'))
 
-    return HttpResponse()
+    return render(request, 'app/home.html')
 
 
 def logout(request):

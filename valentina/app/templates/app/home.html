@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>{% block title %}Valentina{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    {% include 'favicons.html' %}
+  </head>
+  <body>
+
+    <main>
+      
+      <nav class="app">
+        <div>
+          <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"></h1>
+          <ul>
+            <li><a href="#"><img src="{% static 'img/preferences.png' %}" alt="Preferências"></a></li>
+            <li><a href="#"><img src="{% static 'img/logout.png' %}" alt="Sair"></a></li>
+          </ul>
+        </div>
+      </nav><!-- end nav.app -->
+
+      <form action="#">
+        <input id="fb_url" name="fb_url" placeholder="Cole aqui a URL do Facebook do agressor">
+      </form>
+
+      <nav class="chat_list">
+        <h2>Suas conversas</h2>
+        <ul>
+          <li><a href="#">Fulano</a></li>
+          <li><a href="#">Ciclano</a></li>
+          <li><a href="#">Beltrano</a></li>
+        </ul>
+      </nav><!-- end nav.chat_list -->
+
+      {% include 'app/footer.html' %}
+
+    </main>
+
+    <section>
+
+    </section>
+
+
+  </body>
+</html>
