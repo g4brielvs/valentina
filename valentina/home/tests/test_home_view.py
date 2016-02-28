@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.shortcuts import resolve_url
+from valentina.app.models import Profile
 
 
 class TestGetHomeWithoutUserAuthenticated(TestCase):
@@ -22,7 +23,8 @@ class TestGetHomeWithoutUserAuthenticated(TestCase):
 class TestGetHomeWithUserAuthenticated(TestCase):
 
     def test_get(self):
-        User.objects.create_user('olivia', password='password')
+        user = User.objects.create_user('olivia', password='password')
         self.client.login(username='olivia', password='password')
+        Profile.objects.create(gender=Profile.FEMALE, user=user)
         resp = self.client.get(resolve_url('home'))
-        self.assertRedirects(resp, resolve_url('welcome'))
+        self.assertRedirects(resp, resolve_url('app:welcome'))

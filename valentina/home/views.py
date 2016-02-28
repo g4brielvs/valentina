@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render, resolve_url
 
 def home(request):
     if request.user.is_authenticated():
-        return redirect(resolve_url('welcome'))
+        return redirect(resolve_url('app:welcome'))
     return render(request, 'home.html')
 
 
