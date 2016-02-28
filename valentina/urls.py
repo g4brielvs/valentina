@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from valentina.home.views import home, logout
+from valentina.home.views import home, blocked, female_only
 
 urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'^oauth/', include('social.apps.django_app.urls', namespace='oauth')),
     url(r'^app/', include('valentina.app.urls', namespace='app')),
-    url(r'^logout/$', logout, name='logout'),
+    url(r'^blocked/$', blocked, name='blocked'),
+    url(r'^exclusive/$', female_only, name='female_only'),
     url(r'^admin/', admin.site.urls),
 ]

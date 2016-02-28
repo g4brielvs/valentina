@@ -13,7 +13,7 @@ class TestGetHomeWithoutUserAuthenticated(TestCase):
         self.assertEqual(200, self.resp.status_code)
 
     def test_template(self):
-        self.assertTemplateUsed(self.resp, 'home.html')
+        self.assertTemplateUsed(self.resp, 'home/home.html')
 
     def test_login_link(self):
         expected = 'href="{}"'.format('/oauth/login/facebook/')

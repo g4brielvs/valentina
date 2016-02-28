@@ -1,3 +1,4 @@
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, resolve_url
@@ -14,17 +15,14 @@ def welcome(request):
 
     # abort if user is not valid
     if not _valid_user(request.user):
-        return redirect(resolve_url('app:female_only'))
+        return redirect(resolve_url('female_only'))
 
     return HttpResponse()
 
 
-def female_only(request):
-    return HttpResponse()
-
-
-def blocked(request):
-    return HttpResponse()
+def logout(request):
+    auth_logout(request)
+    return redirect(resolve_url('home'))
 
 
 def _valid_user(user):

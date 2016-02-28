@@ -1,8 +1,7 @@
 from django.conf.urls import url
-from valentina.app.views import welcome, blocked, female_only
+from valentina.app.views import welcome, logout
 
 urlpatterns = [
     url(r'^$', welcome, name='welcome'),
-    url(r'^blocked/$', blocked, name='blocked'),
-    url(r'^oops/$', female_only, name='female_only'),
+    url(r'^logout/$', logout, name='logout'),
 ]

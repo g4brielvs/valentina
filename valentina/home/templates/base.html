@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>{% block title %}Valentina{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  </head>
+
+  <body>
+
+    <main id="home" class="outer_container">
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer class="outer_container">
+      <div class="inner_container">
+        <ul>
+          <li><a href="#">Sobre Valentina.vc</a>
+          </li>
+          <li><a href="#">Quem somos</a>
+          </li>
+          <li><a href="#">Ajuda</a>
+          </li>
+          <li><a href="#">Termos de Uso & Privacidade</a>
+          </li>
+          <li><a href="#">Contato</a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+
+  </body>
+</html>

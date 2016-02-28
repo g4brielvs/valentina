@@ -31,7 +31,7 @@ class TestGetWithMaleUserAuthenticated(TestGetAppWithMaleUser):
     def test_get_for_male_user(self):
         self.client.login(username='stan', password='password')
         resp = self.client.get(resolve_url('app:welcome'))
-        self.assertRedirects(resp, resolve_url('app:female_only'))
+        self.assertRedirects(resp, resolve_url('female_only'))
 
     def test_get_for_staff(self):
         self.user.is_staff = True
