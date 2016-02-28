@@ -1,15 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_class%}home{%endblock %}
+
 {% block content %}
 
 <div class="inner_container">
-  <div class="wrapper">
+  <div class="title">
     <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"/>
+    </div><!-- end div.title -->
+  <div class="headline">
     </h1>
-    <h2>Aqui a gente expica a ideia em uma frase</h2>
+    <p>Muitas denúncias de assédio não são levadas até o fim por medo,
+      arrependimento, culpa e repressão.</p>
+    <p>Aqui você tem espaço de ouvir e ser ouvida. Juntas temos mais força e voz.</p>
+    <p>A nossa voz tem nome. Valentina.</p>
+  </div><!-- end div.headline -->
+  <div class="login">
     <a id="login" href="/oauth/login/facebook/"><i class="fa fa-facebook-official"></i>Entrar com o Facebook</a>
-  </div>
+  </div><!-- end div.login -->
 </div><!-- end div.inner_container -->
 
 <div class="inner_container">

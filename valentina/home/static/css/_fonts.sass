@@ -1,1 +1,21 @@
-$font-family: 'Asap', sans-serif
+// font-awesome
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css)
+
+// Open Sans Condensed
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700)
+
+// font definitions
+$font-family: 'Open Sans Condensed', $helvetica
+
+$bold-weight: 700
+$normal-weight: 300
+
+$normal-text: normal $normal-weight 1em $font-family
+$bold-text: normal $bold-weight 1em $font-family
+
+// overide bitters hedings
+
+h1, h2, h3, h4, h5, h6
+  font-family: $font-family
+  font-weight: $normal-weight
+

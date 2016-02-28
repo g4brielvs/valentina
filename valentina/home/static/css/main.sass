@@ -43,14 +43,23 @@ div#flashes
   .flash-success
     @include flash($success-color)
 
-main#home
-  div.wrapper
+main.home
+
+  div.title, div.headline, div.login, div.step
     @include span-columns(4)
     @include shift(1)
     @include clearfix
+
+  div.title, div.login
     @include media($desktop)
       @include span-columns(4)
       @include shift(4)
+
+  div.headline
+    @include media($desktop)
+      @include span-columns(6)
+      @include shift(3)
+
   h1
     margin-top: 6rem
   h2
