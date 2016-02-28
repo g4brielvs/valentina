@@ -1,0 +1,18 @@
+// Bourbon & Bitters
+@import ../../../../bower_components/bourbon/app/assets/stylesheets/bourbon
+@import ../../../../bower_components/neat/app/assets/stylesheets/neat
+@import ../../../../bower_components/bitters/app/assets/stylesheets/base
+
+// project settings
+@import ../../../home/static/css/colors
+@import ../../../home/static/css/fonts
+$desktop: new-breakpoint(min-width 768px 12)
+
+// project modules
+@import ../../../home/static/css/footer/footer
+@import menu/menu
+
+body, html
+  font-family: $font-family
+  margin: 0
+  padding: 0

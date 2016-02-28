@@ -14,3 +14,7 @@ Alternatively you can set a watcher:
 ```console
 sass --watch valentina/home/static/css/main.sass:valentina/home/static/css/main.css
 ```
+
+## Thanks
+
+Thanks to [Golden Roof](https://thenounproject.com/term/settings/134561) and [ChangHoon](https://thenounproject.com/term/log-out/76004/) for their icons.

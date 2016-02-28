@@ -16,7 +16,6 @@ class Profile(models.Model):
     gender = models.CharField('gênero', max_length=1, choices=GENDERS)
     timezone = models.CharField('fuso-horário', max_length=255)
     nickname = models.CharField('apelido', max_length=255)
-    first_access = models.BooleanField('primeiro acesso', default=True)
 
     def __str__(self):
         return self.nickname if self.nickname else self.user.get_full_name()
