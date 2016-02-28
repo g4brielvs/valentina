@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_class %}home{% endblock %}
+
 {% block content %}
 
 <div class="inner_container">
-  <div class="wrapper">
-    <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"/>
-    </h1>
-    <h2>Você foi bloqueado, desculpe.</h2>
-  </div>
+  <div class="title">
+    <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"></h1>
+  </div><!-- div.title -->
+  <div class="headline">
+    <p>Valentina, você foi bloqueada.</p>
+    <p>Se você acha que ocorreu algum engano, fique à vontade para entrar em <a href="#">contato</a> com a gente.
+  </div><!-- headline -->
 </div><!-- end div.inner_container -->
 
 {% endblock %}

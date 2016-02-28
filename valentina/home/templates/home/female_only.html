@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_class %}home{% endblock %}
+
 {% block content %}
 
 <div class="inner_container">
-  <div class="wrapper">
-    <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"/>
-    </h1>
-    <h2>Sinto muito, mas a Valentina é uma plataforma exclusiva para mulheres.</h2>
-  </div>
+  <div class="title">
+    <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"></h1>
+  </div><!-- div.title -->
+  <div class="headline">
+    <p>Esse é um espaço exclusivo para Valentinas.</p>
+    <p>
+      Se você é um Valentino, fique à vontade para baixar o nosso
+      <a href="http://github.com/valentinavc/">código fonte</a> e fundar o
+      <a href="http://valentino.vc/">valentino.vc</a>.
+    </p>
+    <p>; )</p>
+  </div><!-- headline -->
 </div><!-- end div.inner_container -->
 
 {% endblock %}
