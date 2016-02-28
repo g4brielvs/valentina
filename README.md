@@ -6,13 +6,18 @@
 
 ```console
 $ bower install
-$ sass valentina/home/static/css/main.sass valentina/core/static/css/main.css
+$ sass valentina/home/static/css/home.sass valentina/home/static/css/home.css
+$ sass valentina/app/static/css/app.sass valentina/app/static/css/home.css
 ```
 
-Alternatively you can set a watcher:
+Alternatively you can set watchers:
 
 ```console
-sass --watch valentina/home/static/css/main.sass:valentina/home/static/css/main.css
+sass --watch valentina/home/static/css/home.sass:valentina/home/static/css/home.css
+```
+
+```console
+sass --watch valentina/app/static/css/app.sass:valentina/app/static/css/app.css
 ```
 
 ## Thanks
