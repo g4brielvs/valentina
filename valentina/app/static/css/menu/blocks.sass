@@ -4,10 +4,6 @@ main
 
   background-color: $main_background_color
 
-  svg
-    @include size(1.6rem)
-    fill: $main_text_color
-
   nav.chat_list, footer
     margin-top: 2rem
     padding-bottom: 0
@@ -29,6 +25,30 @@ main
     li
       display: inline
       margin-left: .5rem
+    svg
+      @include size(1.6rem)
+      fill: $main_text_color
+
+  form
+    position: relative
+    span, button
+      background: #fff
+      border: 0
+      display: block
+      padding: 0
+      position: absolute
+    span
+      top: .6rem
+      left: .5rem
+    button
+      top: .5rem
+      right: .5rem
+    svg
+      @include size(1.2rem)
+      fill: tint($main_background_color, 40%)
+    span
+      svg
+        fill: tint($main_background_color, 70%)
 
   nav.chat_list
 
