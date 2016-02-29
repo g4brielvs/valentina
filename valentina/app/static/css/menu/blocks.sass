@@ -33,7 +33,25 @@ main
   nav.chat_list
     li
       display: block
-      a
-        display: block
-        padding: .5rem
-        margin-top: 1rem
+    a
+      @include clearfix
+      display: block
+      margin-top: 1rem
+      padding: .5rem
+      position: relative
+
+    span
+      display: block
+      float: left
+      &.notification
+        padding: .1rem .5rem
+        position: absolute
+        right: -.5rem
+        top: -.75rem
+      &.chat_alias
+        max-width: 13rem
+        overflow: hidden
+        white-space: nowrap;
+      &.users
+        margin-top: .2rem
+        float: right

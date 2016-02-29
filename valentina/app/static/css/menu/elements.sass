@@ -12,3 +12,16 @@ main
   nav.chat_list
     li a
       border: rem(1) solid $main_text_color
+    span.users
+      opacity: .5
+      font-size: .8rem
+    span.notification
+      background-color: $main_text_color
+      color: $main_background_color
+      border-radius: .25rem
+      font-size: .8rem
+      &.empty
+        border-radius: 50%;
+        min-height: 1.2rem;
+        min-width: 1.2rem;
+        top: -.5rem
