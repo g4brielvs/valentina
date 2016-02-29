@@ -1,5 +1,5 @@
 from django.contrib import admin
-from valentina.app.models import Profile
+from valentina.app.models import Affiliation, Chat, Message, Profile
 
 
 class ProfileModelAdmin(admin.ModelAdmin):
@@ -23,4 +23,25 @@ class ProfileModelAdmin(admin.ModelAdmin):
     date_joined.short_description = 'criado em'
 
 
+class ChatModelAdmin(admin.ModelAdmin):
+    list_display = ('person', )
+
+
+class MessageModelAdmin(admin.ModelAdmin):
+    list_display = ('user_full_name', 'chat', 'excerpt', 'created_at')
+
+    def user_full_name(self, obj):
+        name = obj.user.get_full_name()
+        return name if name else obj.user.profile.nickname
+
+    user_full_name.short_description = 'usuário'
+
+    def excerpt(self, obj):
+        return obj.__str__()
+
+    excerpt.short_description = 'conteúdo'
+
 admin.site.register(Profile, ProfileModelAdmin)
+admin.site.register(Chat, ChatModelAdmin)
+admin.site.register(Message, MessageModelAdmin)
+admin.site.register(Affiliation)

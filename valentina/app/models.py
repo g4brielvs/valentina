@@ -1,5 +1,7 @@
+
 from django.conf import settings
 from django.db import models
+from django.utils.text import Truncator
 from faker import Factory
 
 
@@ -40,6 +42,9 @@ class Chat(models.Model):
 
     person = models.CharField('identificador', max_length=255)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
+
+    def __str__(self):
+        return self.person
 
     class Meta:
         ordering = ['-created_at']
