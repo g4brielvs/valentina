@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'test_without_migrations',
-    'django_extensions',
     'social.apps.django_app.default',
+    'django_extensions',
+    'compressor',
     'valentina.home',
     'valentina.app.apps.AppConfig',
 ]
@@ -125,7 +126,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
+COMPRESS_PRECOMPILERS = (
+    ('text/x-sass', 'sassc --include-path bower_components --include-path valentina/home/static/css --style compressed {infile} {outfile}'),
+)
+COMPRESS_OUTPUT_DIR = 'compress'
 
 # python-social-auth
 # http://python-social-auth.readthedocs.org

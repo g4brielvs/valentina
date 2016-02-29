@@ -2,10 +2,14 @@
 <html lang="pt-br">
   <head>
     {% load static %}
+    {% load compress %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>{% block title %}Valentina{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    {% compress css %}
+    <link rel="stylesheet" type="text/x-sass" href="{% static 'css/home.sass' %}">
+    {% endcompress %}
     {% include 'favicons.html' %}
   </head>
   <body>
