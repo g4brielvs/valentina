@@ -34,8 +34,8 @@ class Profile(models.Model):
 
     class Meta:
         ordering = ['nickname']
-        verbose_name = 'usuária'
-        verbose_name_plural = 'usuárias'
+        verbose_name = 'usuário'
+        verbose_name_plural = 'usuários'
 
 
 class Chat(models.Model):
