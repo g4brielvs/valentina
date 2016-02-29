@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
-    {% load static %}
+    {% load static from staticfiles %}
+    {% load compress %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>{% block title %}Valentina{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+
+    {% compress css %}
+    <link rel="stylesheet" type="text/x-sass" href="{% static 'css/app.sass' %}">
+    {% endcompress %}
     {% include 'favicons.html' %}
   </head>
   <body>
@@ -17,7 +22,7 @@
           <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"></h1>
           <ul>
             <li><a href="#"><img src="{% static 'img/preferences.png' %}" alt="Preferências"></a></li>
-            <li><a href="#"><img src="{% static 'img/logout.png' %}" alt="Sair"></a></li>
+            <li><a href="{% url 'app:logout' %}"><img src="{% static 'img/logout.png' %}" alt="Sair"></a></li>
           </ul>
         </div>
       </nav><!-- end nav.app -->
