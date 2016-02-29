@@ -1,24 +1,8 @@
 # Valentina
 
-## Building assets
+## Building static files
 
-`bower` and `sass` commands are required to generate CSS assets:
-
-```console
-$ bower install
-$ sass valentina/home/static/css/home.sass valentina/home/static/css/home.css
-$ sass valentina/app/static/css/app.sass valentina/app/static/css/home.css
-```
-
-Alternatively you can set watchers:
-
-```console
-sass --watch valentina/home/static/css/home.sass:valentina/home/static/css/home.css
-```
-
-```console
-sass --watch valentina/app/static/css/app.sass:valentina/app/static/css/app.css
-```
+[Bower](http://bower.io) is required to generate CSS files. Run `bower install` first and then run `python manage.py collectstatic`.
 
 ## Thanks
 
