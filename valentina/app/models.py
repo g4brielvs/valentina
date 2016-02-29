@@ -51,7 +51,11 @@ class Message(models.Model):
 
     chat = models.ForeignKey('Chat')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    content = models.TextField('conteúdo', null=True)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
+
+    def __str__(self):
+        return Truncator(self.content).words(7)
 
     class Meta:
         ordering = ['-created_at']
