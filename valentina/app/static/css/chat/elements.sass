@@ -1,0 +1,43 @@
+section.chat
+
+  .controls
+    h2
+      color: $main_background_color
+      font-size: 1.6rem
+    button
+      background-color: transparent
+      color: $main_background_color
+      font-size: 1.6rem
+      font-weight: $bold-weight
+
+  li
+    border-bottom: rem(1) dotted tint($main_background_color, 70%)
+    &:last-child
+      border: 0
+
+  .ago
+    font-size: .8rem
+    font-style: italic
+  
+  .author
+    span
+      color: $main_background_color
+    a
+      color: tint($main_background_color, 50%)
+      font-size: .8rem
+      svg
+        fill: tint($main_background_color, 50%)
+
+  .me
+    text-align: right
+
+  .input
+    text-align: right
+    button
+      &:after
+        content: ' »'
+
+  textarea
+    color: shade($main_background_color, 40%)
+
+

@@ -1,20 +1,23 @@
+main, section.col
+
 main
 
   background-color: $main_background_color
-  height: 100vh
-  padding: 1rem
-  width: 100%
-  @include media($desktop)
-    width: 20rem
 
-  h2
   svg
     @include size(1.6rem)
     fill: $main_text_color
+
+  nav.chat_list, footer
+    margin-top: 2rem
+    padding-bottom: 0
+
+  h3
     margin-top: 2rem
 
   nav.app
     @include clearfix
+    margin: 0 1rem
     h1
       float: left
       height: 2rem
@@ -22,14 +25,18 @@ main
       width: 50%
     ul
       float: right
+      margin-top: 1.25rem
     li
       display: inline
       margin-left: .5rem
 
-  form
-    margin-top: 2rem
-
   nav.chat_list
+
+    @include flex(1)
+    overflow: scroll
+
+    h3, form, li
+      margin: 0 1rem
     li
       display: block
     a

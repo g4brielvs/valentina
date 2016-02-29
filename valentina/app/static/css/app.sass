@@ -8,11 +8,28 @@
 @import fonts
 $desktop: new-breakpoint(min-width 768px 12)
 
-// project modules
-@import footer/footer
-@import menu/menu
-
 body, html
   font-family: $font-family
   margin: 0
   padding: 0
+
+.col
+  @include display(flex) 
+  @include flex-direction(column)
+  float: left
+  height: 100vh
+  padding: 1rem 0
+  width: 100%
+  @include media($desktop)
+    width: 20rem
+
+button
+  padding: .5rem
+  background-color: $main_background_color
+  &:hover
+    background-color: shade($main_background_color, 10%)
+
+// project modules
+@import footer/footer
+@import menu/menu
+@import chat/chat

@@ -1,0 +1,52 @@
+section.chat
+
+  padding: 1rem
+  color: shade($main_background_color, 40%)
+  background-color: tint($main_background_color, 80%)
+  border-right: rem(1) solid tint($main_background_color, 90%)
+  border-left: rem(1) solid tint($main_background_color, 70%)
+
+  div
+    margin-top: 1rem
+    &:first-child
+      margin-top: 0
+
+  .controls
+    padding-top: 1rem
+    h2
+      display: inline
+      text-align: right
+    button
+      float: right
+      margin: 0
+      padding: 0
+      @include media($desktop)
+        display: none
+
+  .timeline
+    @include flex(1)
+    overflow: scroll
+
+  li
+    margin-top: .5rem
+    padding-bottom: 1rem
+    &:first-child
+      margin-top: 0
+    &:last-child
+      padding-bottom: 0
+
+  p
+    margin: 0
+
+  .ago
+    line-height: .8rem
+
+  .author
+    span
+    a
+      display: block
+      float: right
+      svg
+        @include size(1rem)
+        @include transform(translateY(.1rem))
+        margin: 0 .25rem

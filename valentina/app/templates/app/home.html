@@ -15,7 +15,7 @@
   </head>
   <body>
 
-    <main>
+    <main class="col">
       
       <nav class="app">
         <div>
@@ -27,12 +27,13 @@
         </div>
       </nav><!-- end nav.app -->
 
-      <form action="#">
-        <input id="fb_url" name="fb_url" placeholder="Cole aqui a URL do Facebook do agressor">
-      </form>
-
       <nav class="chat_list">
-        <h2>Seus grupos</h2>
+
+        <form action="#">
+          <input id="fb_url" name="fb_url" placeholder="Cole aqui a URL do Facebook do agressor">
+        </form>
+        
+        <h3>Seus grupos</h3>
         <ul>
           <li>
             <a href="#">
@@ -62,7 +63,47 @@
 
     </main>
 
-    <section>
+    <section class="col chat">
+
+      <div class="controls">
+        <button>&times;</button>
+        <h2>Fulano</h2>
+      </div>
+      
+      <div class="timeline">
+        <ol>
+          <li>
+            <p class="author"><span>Valentina</span></p>
+            <p>Here comes the message</p>
+            <p class="ago">3 minutos atrás</p>
+          </li>
+          <li>
+            <p class="author">
+              <span>Valentina</span>
+              <a href="#" title="Denunciar">{% include 'app/svg/report.svg' %} Reportar</a>
+            </p>
+            <p>Here comes the message</p>
+            <p class="ago">3 minutos atrás</p>
+          </li>
+          <li class="me">
+            <p class="author"><span>Valentina</span></p>
+            <p>Here comes the message</p>
+            <p class="ago">3 minutos atrás</p>
+          </li>
+          <li>
+            <p class="author"><span>Valentina</span></p>
+            <p>Here comes the message</p>
+            <p class="ago">3 minutos atrás</p>
+          </li>
+        </ol>
+      </div><!-- end div.timelina -->
+
+      <div class="input">
+        <form action="#">
+          <textarea></textarea>
+          <button>Enviar</button>
+        </form>
+      </div><!-- end div.timelina -->
 
     </section>
 
