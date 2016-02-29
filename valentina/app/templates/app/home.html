@@ -22,7 +22,7 @@
           <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"></h1>
           <ul>
             <li><a href="#"><img src="{% static 'img/preferences.png' %}" alt="Preferências"></a></li>
-            <li><a href="#"><img src="{% static 'img/logout.png' %}" alt="Sair"></a></li>
+            <li><a href="{% url 'app:logout' %}"><img src="{% static 'img/logout.png' %}" alt="Sair"></a></li>
           </ul>
         </div>
       </nav><!-- end nav.app -->
