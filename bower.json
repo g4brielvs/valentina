@@ -1,17 +1,10 @@
 {
+  "private": true,
   "name": "valentina",
   "license": "MIT",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "dependencies": {
     "bitters": "~1.2.0",
     "bourbon": "~4.2.5",
-    "neat": "~1.7.2",
-    "refills": "~0.1.0"
+    "neat": "~1.7.3"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "engines": {
+    "node": "5.x"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  },
+  "dependencies": {
+    "bower": "^1.7.7"
+  }
+}
