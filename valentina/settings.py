@@ -135,7 +135,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-sass', 'sassc --include-path bower_components --include-path valentina/home/static/css --style compressed {infile} {outfile}'),
-    ('text/x-browserify', 'node_modules/.bin/browserify -t babelify {infile} | node_modules/.bin/uglifyjs -c > {outfile}'),
+    ('text/x-babel', 'node_modules/.bin/browserify {infile} | node_modules/.bin/uglifyjs -c > {outfile}'),
 )
 COMPRESS_OUTPUT_DIR = 'compress'
 
