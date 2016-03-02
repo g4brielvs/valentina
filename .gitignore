@@ -4,9 +4,10 @@
 .env
 .ropeproject/
 .sass-cache
+.vagrant/
 /static/
 __pycache__
 bower_components/
-.vagrant/
+node_modules/
 Vagrant.sh
 Vagrantfile

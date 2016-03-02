@@ -3,6 +3,7 @@
   <head>
     {% load static from staticfiles %}
     {% load compress %}
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>{% block title %}Valentina{% endblock %}</title>
@@ -11,10 +12,18 @@
     {% compress css %}
     <link rel="stylesheet" type="text/x-sass" href="{% static 'css/app.sass' %}">
     {% endcompress %}
+
     {% include 'favicons.html' %}
+
   </head>
   <body>
+
     {% include 'app/menu.html' %}
-    {% include 'app/chat_snippet.html' %}
+    <div id="chat_panels"></div>
+
+    {% compress js %}
+    <script type="text/x-browserify" src="{% static 'js/app.js' %}"></script> 
+    {% endcompress %}
+
   </body>
 </html>
