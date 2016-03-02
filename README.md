@@ -44,6 +44,11 @@ Once you're done with requirements, dependencies and settings, create the basic 
 python manage.py migrate
 python manage.py createsuperuser
 ```
+If you are going to run with ```DEBUG=False```, make sure you run first: 
+
+```
+python manage.py collectstatic
+```
 
 ### Ready?
 
