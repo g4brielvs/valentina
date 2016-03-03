@@ -14,7 +14,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE,
-                                verbose_name='Usuário')
+                                verbose_name='Usuária')
     gender = models.CharField('gênero', max_length=1, choices=GENDERS)
     timezone = models.CharField('fuso-horário', max_length=255)
     nickname = models.CharField('apelido', max_length=255)
@@ -34,8 +34,8 @@ class Profile(models.Model):
 
     class Meta:
         ordering = ['nickname']
-        verbose_name = 'usuário'
-        verbose_name_plural = 'usuários'
+        verbose_name = 'usuária'
+        verbose_name_plural = 'usuárias'
 
 
 class Chat(models.Model):
