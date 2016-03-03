@@ -13,12 +13,12 @@
 
   <nav class="chat_list">
 
-    <form action="#">
+    <form class="search-bar">
       <span>{% include 'app/svg/facebook.svg' %}</span>
-      <input id="fb_url" name="fb_url" placeholder="Cole aqui a URL do Facebook do agressor">
-      <button>{% include 'app/svg/magnifier.svg' %}</button>
+      <input type="search" name="url" placeholder="Cole a URL do Facebook do agressor" />
+      <button type="submit">{% include 'app/svg/magnifier.svg' %}</button>
     </form>
-    
+
     <h3>Seus grupos</h3>
     <ul>
       <li>
