@@ -70,11 +70,10 @@ class Message(models.Model):
 
 class Affiliation(models.Model):
 
-    chat = models.OneToOneField('Chat', on_delete=models.CASCADE,
-                                verbose_name='Chat')
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE,
-                                verbose_name='Usuária')
+    chat = models.ForeignKey('Chat')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             verbose_name='Usuária')
     alias = models.CharField('Nome fictício', max_length=140)
 
     class Meta:

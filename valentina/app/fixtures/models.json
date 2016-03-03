@@ -1,0 +1,104 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "my-password-hash",
+    "last_login": "1970-01-01T00:00:00.000Z",
+    "is_superuser": false,
+    "username": "Olivia",
+    "first_name": "Olivia",
+    "last_name": "Palito",
+    "email": "olivia@valentina.vc",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "1970-01-01T00:00:00.000Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "my-password-hash",
+    "last_login": "1970-01-01T00:00:00.000Z",
+    "is_superuser": false,
+    "username": "valentina",
+    "first_name": "",
+    "last_name": "",
+    "email": "valentina@valentina.vc",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "1970-01-01T00:00:00.000Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "app.profile",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "gender": "F",
+    "timezone": "-3",
+    "nickname": "joannedoe"
+  }
+},
+{
+  "model": "app.profile",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "gender": "F",
+    "timezone": "-3",
+    "nickname": "jane doe"
+  }
+},
+{
+  "model": "app.chat",
+  "pk": 1,
+  "fields": {
+    "person": "stan_id",
+    "created_at": "1970-01-01T00:00:00.000Z"
+  }
+},
+{
+  "model": "app.message",
+  "pk": 1,
+  "fields": {
+    "chat": 1,
+    "user": 1,
+    "content": "Hi",
+    "created_at": "1970-01-01T00:00:00.000Z"
+  }
+},
+{
+  "model": "app.message",
+  "pk": 2,
+  "fields": {
+    "chat": 1,
+    "user": 2,
+    "content": "Hey you",
+    "created_at": "1970-01-01T00:00:00.000Z"
+  }
+},
+{
+  "model": "app.affiliation",
+  "pk": 1,
+  "fields": {
+    "chat": 1,
+    "user": 1,
+    "alias": "Hacker"
+  }
+},
+{
+  "model": "app.affiliation",
+  "pk": 2,
+  "fields": {
+    "chat": 1,
+    "user": 2,
+    "alias": "Nerd"
+  }
+}
+]
