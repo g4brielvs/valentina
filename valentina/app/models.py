@@ -63,7 +63,7 @@ class Message(models.Model):
         return Truncator(self.content).words(7)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['created_at']
         verbose_name = 'mensagem'
         verbose_name_plural = 'mensagens'
 

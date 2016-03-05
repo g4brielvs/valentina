@@ -24,6 +24,10 @@ class TestGetWithFemaleUserAuthenticated(TestGetApp):
     def test_template(self):
         self.assertTemplateUsed(self.resp, 'app/home.html')
 
+    def test_chats_attr(self):
+        expected = '<body data-chats="'
+        self.assertContains(self.resp, expected)
+
     def test_logout_link(self):
         url = resolve_url('app:logout')
         expected = 'href="{}"'.format(url)

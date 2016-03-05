@@ -18,7 +18,11 @@ def welcome(request):
     if not _valid_user(request.user):
         return redirect(resolve_url('female_only'))
 
-    return render(request, 'app/home.html')
+    # load user's chats
+    affiliations = Affiliation.objects.filter(user=request.user)
+    chats = [str(affiliation.chat.pk) for affiliation in affiliations]
+
+    return render(request, 'app/home.html', {'chats': ','.join(chats)})
 
 
 @login_required(login_url='/')
@@ -28,11 +32,10 @@ def chat(request, pk):
     affiliation = get_object_or_404(Affiliation, chat=chat, user=request.user)
     messages = Message.objects.filter(chat=chat)[:50]
 
-    contents = {'chat_id': chat.pk,
-                'chat_alias': affiliation.alias,
-                'messages': [_message_to_dict(msg) for msg in messages]}
+    chat_details = {'id': chat.pk, 'alias': affiliation.alias}
+    messages = [_message_to_dict(request, msg) for msg in messages]
 
-    return JsonResponse(contents)
+    return JsonResponse({'chat': chat_details, 'messages': messages})
 
 
 def logout(request):
@@ -54,9 +57,11 @@ def _valid_user(user):
     return False
 
 
-def _message_to_dict(message):
+def _message_to_dict(request, message):
     created_at = arrow.get(message.created_at)
+    css_class = 'me' if request.user == message.user else ''
     return {'content': message.content,
             'ago': created_at.humanize(locale=settings.LANGUAGE_CODE[:2]),
             'author': message.user.profile.nickname,
-            'id': message.pk}
+            'id': message.pk,
+            'className': css_class}

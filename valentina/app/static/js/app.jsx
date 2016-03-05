@@ -1,54 +1,12 @@
+var $ = require('jquery-browserify');
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var chat = {alias: "Fulano", id: 'chat42'}
-
-var messages = [
-  {
-    id: 'chat1',
-    author: 'Valentina',
-    ago: '15 minutos atrás',
-    content: 'Here comes the message…'
-  },
-  {
-    id: 'chat2',
-    author: 'Valentina',
-    ago: '12 minutos atrás',
-    content: 'Here comes the message…'
-  },
-  {
-    id: 'chat3',
-    author: 'Valentina',
-    ago: '9 minutos atrás',
-    content: 'Here comes the message…',
-    className: 'me'
-  },
-  {
-    id: 'chat4',
-    author: 'Valentina',
-    ago: '7 minutos atrás',
-    content: 'Here comes the message…'
-  },
-  {
-    id: 'chat5',
-    author: 'Valentina',
-    ago: '5 minutos atrás',
-    content: 'Here comes the message…'
-  },
-  {
-    id: 'chat6',
-    author: 'Valentina',
-    ago: '2 minutos atrás',
-    content: 'Here comes the message…',
-    className: 'me'
-  },
-  {
-    id: 'chat7',
-    author: 'Valentina',
-    ago: '1 minutos atrás',
-    content: 'Here comes the message…'
-  },
-];
+var get_chats = function () {
+  var body = document.getElementsByTagName('body')[0];
+  var chats = body.getAttribute('data-chats');
+  return chats.split(',');
+};
 
 var ChatHeading = React.createClass({
   render: function() {
@@ -68,7 +26,7 @@ var ChatTimeline =  React.createClass({
         <ol>
           {this.props.messages.map(function(message){
             return (
-              <li className="{message.className}" key={message.id} id={message.id}>
+              <li className={message.className} key={message.id} id={message.id}>
                 <span className="author">{message.author}</span>
                 <p>{message.content}</p>
                 <span className="ago">{message.ago}</span>
@@ -95,18 +53,40 @@ var ChatForm = React.createClass({
 });
 
 var ChatBox = React.createClass({
+  getInitialState: function(){
+    var chat_id = get_chats();
+    var chat_details = {id: chat_id[0]};
+    return {chat: chat_details, messages: []};
+  },
+  loadMessages: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data){
+        this.setState({chat: data['chat'], messages: data['messages']});
+      }.bind(this),
+      error: function(xhr, status, err){
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  componentDidMount: function(){
+    this.loadMessages();
+    setInterval(this.loadMessages, this.props.fetchInterval);
+  },
   render: function() {
     return (
-      <section className="col chat" key={this.props.chat.id} id={this.props.chat.id}>
-        <ChatHeading chat={this.props.chat} />
-        <ChatTimeline messages={this.props.messages} />
-        <ChatForm chat={this.props.chat} />
+      <section className="col chat" key={this.state.chat.id}>
+        <ChatHeading chat={this.state.chat} />
+        <ChatTimeline messages={this.state.messages} />
+        <ChatForm chat={this.state.chat} />
       </section>
     );
   }
 });
 
 ReactDOM.render(
-  <ChatBox messages={messages} chat={chat} />,
+  <ChatBox url="/app/chat/1" fetchInterval={3000} />,
   document.getElementById('chat_panels')
 );

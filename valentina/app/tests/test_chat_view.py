@@ -49,6 +49,6 @@ class TestGetWithLogin(TestCase):
     def test_contents(self):
         json_resp = self.resp.json()
         with self.subTest():
-            self.assertEqual(json_resp['chat_id'], self.chat.pk)
-            self.assertEqual(json_resp['chat_alias'], 'Geek')
+            self.assertEqual(json_resp['chat']['id'], self.chat.pk)
+            self.assertEqual(json_resp['chat']['alias'], 'Geek')
             self.assertEqual(2, len(json_resp['messages']))
