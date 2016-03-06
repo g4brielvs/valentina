@@ -65,6 +65,9 @@ var ChatBox = React.createClass({
       cache: false,
       success: function(data){
         this.setState({chat: data['chat'], messages: data['messages']});
+        $("div.timeline").each(function(){
+          $(this).animate({scrollTop: $(this).prop("scrollHeight")}, 500);
+        });
       }.bind(this),
       error: function(xhr, status, err){
         console.error(this.props.url, status, err.toString());
