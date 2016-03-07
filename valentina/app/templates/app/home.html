@@ -15,7 +15,7 @@
     {% include 'favicons.html' %}
 
   </head>
-  <body data-chats="{{ chats }}">
+  <body data-chats="{{ chats|join:" " }}">
 
     {% include 'app/menu.html' %}
     <div id="chat_panels"></div>

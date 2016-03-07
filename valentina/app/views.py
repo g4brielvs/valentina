@@ -23,7 +23,7 @@ def welcome(request):
     affiliations = Affiliation.objects.filter(user=request.user)
     chats = [str(affiliation.chat.pk) for affiliation in affiliations]
 
-    context = {'chats': ','.join(chats),
+    context = {'chats': [resolve_url('app:chat', pk) for pk in chats],
                'nickname': request.user.profile.nickname}
 
     return render(request, 'app/home.html', context)

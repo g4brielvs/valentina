@@ -2,11 +2,7 @@ var $ = require('jquery-browserify');
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var get_chats = function () {
-  var body = document.getElementsByTagName('body')[0];
-  var chats = body.getAttribute('data-chats');
-  return chats.split(',');
-};
+// ReactJS components
 
 var ChatHeading = React.createClass({
   render: function() {
@@ -70,9 +66,7 @@ var ChatForm = React.createClass({
 
 var ChatBox = React.createClass({
   getInitialState: function(){
-    var chat_id = get_chats();
-    var chat_details = {id: chat_id[0]};
-    return {chat: chat_details, messages: []};
+    return {chat: this.props.chat, messages: []};
   },
   scrollToLastMessage: function (){
     $("div.timeline").each(function(){
@@ -81,7 +75,7 @@ var ChatBox = React.createClass({
   },
   loadMessages: function() {
     $.ajax({
-      url: this.props.url,
+      url: this.props.chat.url,
       dataType: 'json',
       cache: false,
       success: function(data){
@@ -95,7 +89,7 @@ var ChatBox = React.createClass({
   },
   handleMessageSubmit: function(message){
     $.ajax({
-      url: this.props.url,
+      url: this.props.chat.url,
       dataType: 'json',
       type: 'POST',
       data: message,
@@ -114,7 +108,7 @@ var ChatBox = React.createClass({
   },
   render: function() {
     return (
-      <section className="col chat" key={this.state.chat.id}>
+      <section className="col chat">
         <ChatHeading chat={this.state.chat} />
         <ChatTimeline messages={this.state.messages} />
         <ChatForm chat={this.state.chat} onMessageSubmit={this.handleMessageSubmit} />
@@ -123,7 +117,39 @@ var ChatBox = React.createClass({
   }
 });
 
+var ChatBoxes = React.createClass({
+  getInitialState: function(){
+    return {chats: this.props.chats};
+  },
+  render: function(){
+    return(
+      <div>
+        {this.state.chats.map(function(chat){
+          return (
+            <ChatBox key={chat.key} chat={chat} fetchInterval={3000} />
+          );
+        })}
+      </div>
+    );
+  }
+});
+
+// Get user chats and render ReactJS components
+
+var get_chats = function () {
+  var body = document.getElementsByTagName('body')[0];
+  var chats = body.getAttribute('data-chats').split(' ');
+  var re = /(\/app\/chat\/)(\d+)(\/)/;
+  return chats.map(function(chat){
+    return {
+      key: chat.replace(/\//g, ''),
+      id: re.exec(chat)[2],
+      url: chat
+    };
+  });
+};
+
 ReactDOM.render(
-  <ChatBox url="/app/chat/1/" fetchInterval={3000} />,
+  <ChatBoxes chats={get_chats()} />,
   document.getElementById('chat_panels')
 );
