@@ -137,8 +137,10 @@ var ChatBoxes = React.createClass({
 // Get user chats and render ReactJS components
 
 var get_chats = function () {
-  var body = document.getElementsByTagName('body')[0];
-  var chats = body.getAttribute('data-chats').split(' ');
+  var chats = [];
+  $('li[data-chat-url]').each(function(){
+    chats.push($(this).attr('data-chat-url'));
+  });
   var re = /(\/app\/chat\/)(\d+)(\/)/;
   return chats.map(function(chat){
     return {

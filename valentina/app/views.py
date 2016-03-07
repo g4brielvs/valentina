@@ -19,11 +19,7 @@ def welcome(request):
     if not _valid_user(request.user):
         return redirect(resolve_url('female_only'))
 
-    # load user's chats
-    affiliations = Affiliation.objects.filter(user=request.user)
-    chats = [str(affiliation.chat.pk) for affiliation in affiliations]
-
-    context = {'chats': [resolve_url('app:chat', pk) for pk in chats],
+    context = {'chats': _affiliations_to_ctx(request.user),
                'nickname': request.user.profile.nickname}
 
     return render(request, 'app/home.html', context)
@@ -116,3 +112,13 @@ def _message_to_dict(request, message):
             'author': message.user.profile.nickname,
             'id': message.pk,
             'className': css_class}
+
+
+def _affiliations_to_ctx(user):
+    output = list()
+    for affiliation in Affiliation.objects.filter(user=user):
+        data = dict(url=resolve_url('app:chat', affiliation.chat.pk),
+                    alias=affiliation.alias,
+                    valentinas=affiliation.chat.affiliation_set.count())
+        output.append(data)
+    return output
