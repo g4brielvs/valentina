@@ -42,6 +42,12 @@ var ChatForm = React.createClass({
   handleMessageChange: function(e){
     this.setState({message: e.target.value});
   },
+  handleKeyPress: function(e){
+    var keyCode = e.key ? e.key : e.which;
+    if (keyCode === "Enter") {
+      this.handleSubmit(e);
+    }
+  },
   handleSubmit: function(e){
     e.preventDefault();
     var chat = this.props.chat.id;
@@ -56,7 +62,7 @@ var ChatForm = React.createClass({
     return (
       <div className="input">
         <form onSubmit={this.handleSubmit}>
-          <textarea onChange={this.handleMessageChange} value={this.state.message}></textarea>
+          <textarea onChange={this.handleMessageChange} onKeyPress={this.handleKeyPress} value={this.state.message}></textarea>
           <button type="submit">Enviar</button>
         </form>
       </div>
