@@ -1,10 +1,8 @@
-main, section.col
-
 main
 
   background-color: $main_background_color
 
-  nav.chat_list, footer
+  nav.chat_list, form.preferences, footer
     margin-top: 2rem
     padding-bottom: 0
 
@@ -28,6 +26,12 @@ main
     svg
       @include size(1.6rem)
       fill: $main_text_color
+
+  form.preferences
+    @include flex(1)
+    display: none
+    p, h3
+      margin: 2rem 1rem 0 1rem
 
   form.search-bar
     @include clearfix

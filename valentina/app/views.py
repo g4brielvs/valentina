@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from django.conf import settings
-from valentina.app.forms import MessageForm
+from valentina.app.forms import MessageForm, ProfileForm
 from valentina.app.models import Profile, Chat, Message, Affiliation
 
 
@@ -23,7 +23,10 @@ def welcome(request):
     affiliations = Affiliation.objects.filter(user=request.user)
     chats = [str(affiliation.chat.pk) for affiliation in affiliations]
 
-    return render(request, 'app/home.html', {'chats': ','.join(chats)})
+    context = {'chats': ','.join(chats),
+               'nickname': request.user.profile.nickname}
+
+    return render(request, 'app/home.html', context)
 
 
 @login_required(login_url='/')
@@ -68,6 +71,22 @@ def save_message(request, pk):
                                      content=form.cleaned_data.get('content'))
 
     return JsonResponse(_message_to_dict(request, message), status=201)
+
+
+@login_required(login_url='/')
+def profile(request):
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            nickname = form.cleaned_data.get('nickname')
+            request.user.profile.nickname = nickname
+            request.user.profile.save()
+            return JsonResponse({'nickname': nickname})
+        else:
+            return JsonResponse({'error': form.errors}, status=400)
+
+    return HttpResponseNotAllowed(['POST'])
 
 
 def logout(request):
