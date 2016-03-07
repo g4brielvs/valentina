@@ -27,10 +27,11 @@ def welcome(request):
 
 @login_required(login_url='/')
 def chat(request, pk):
-    if request.method == 'POST':
-        return save_message(request, pk)
-    if request.method == 'GET':
-        return list_messages(request, pk)
+    if request.is_ajax():
+        if request.method == 'POST':
+            return save_message(request, pk)
+        if request.method == 'GET':
+            return list_messages(request, pk)
     return HttpResponseNotAllowed(['GET', 'POST'])
 
 
@@ -72,7 +73,7 @@ def save_message(request, pk):
 @login_required(login_url='/')
 def profile(request):
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         form = ProfileForm(request.POST)
         if form.is_valid():
             nickname = form.cleaned_data.get('nickname')

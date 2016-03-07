@@ -26,9 +26,8 @@ preferences.find('button[type=submit]').click(function(e){
   $(this).attr('disabled');
   $(this).html('Salvando…');
   var nickname = preferences.find('input[name=nickname]').val();
-  var url = preferences.attr('action');
   $.ajax({
-    url: url,
+    url: e.currenttarget.action,
     dataType: 'json',
     type: 'POST',
     data: {nickname: nickname},
@@ -39,7 +38,7 @@ preferences.find('button[type=submit]').click(function(e){
     error: function(xhr, status, err){
       $(this).removeAttr('disabled')
       $(this).html('Salvar');
-      console.error(url, status, err.toString());
+      console.error(e.currenttarget.action, status, err.toString());
     }.bind(this)
   });
 });

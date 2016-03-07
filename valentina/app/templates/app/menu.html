@@ -32,6 +32,7 @@
         <button type="submit">{% include 'app/svg/magnifier.svg' %}</button>
       </form>
 
+      {% if chats %}
       <h3>Seus grupos</h3>
       <ul>
         {% for chat in chats %}
@@ -43,6 +44,8 @@
         </li>
         {% endfor %}
       </ul>
+      {% endif %}
+
     </nav><!-- end nav.chat_list -->
   </div>
 

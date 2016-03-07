@@ -138,13 +138,16 @@ var get_chats = function () {
     chats.push($(this).attr('data-chat-url'));
   });
   var re = /(\/app\/chat\/)(\d+)(\/)/;
-  return chats.map(function(chat){
-    return {
-      key: chat.replace(/\//g, ''),
-      id: re.exec(chat)[2],
-      url: chat
-    };
-  });
+  if (chats.length > 0) {
+    return chats.map(function(chat){
+      return {
+        key: chat.replace(/\//g, ''),
+        id: re.exec(chat)[2],
+        url: chat
+      };
+    });
+  }
+  return chats;
 };
 
 ReactDOM.render(
