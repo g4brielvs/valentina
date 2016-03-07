@@ -56,7 +56,7 @@ var ChatForm = React.createClass({
     return (
       <div className="input">
         <form onSubmit={this.handleSubmit}>
-          <textarea onChange={this.handleMessageChange}></textarea>
+          <textarea onChange={this.handleMessageChange} value={this.state.message}></textarea>
           <button type="submit">Enviar</button>
         </form>
       </div>
@@ -93,10 +93,6 @@ var ChatBox = React.createClass({
       dataType: 'json',
       type: 'POST',
       data: message,
-      success: function(data) {
-        this.setState({chat: data['chat'], messages: data['messages']});
-        this.scrollToLastMessage();
-      }.bind(this),
       error: function(xhr, status, err){
         console.error(this.props.url, status, err.toString());
       }.bind(this)
