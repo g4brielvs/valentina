@@ -45,9 +45,9 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### In case you are turning off the _debug mode_
+### Generate static files for WhiteNoise
 
-If you are going to run the app with `DEBUG=False` first you will have to set the stage for your static files: 
+We serve static files through [WhiteNoise](http://whitenoise.evans.io), so you might have to run:
 
 ```
 python manage.py collectstatic
