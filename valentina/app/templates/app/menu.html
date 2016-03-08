@@ -3,7 +3,7 @@
   
   <nav class="app">
     <div>
-      <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"></h1>
+      <h1>{% include 'home/svg/valentina.svg' %}</h1>
       <ul>
         <li><a href="#" id="preferences"  title="Preferências">{% include 'app/svg/preferences.svg' %}</a></li>
         <li><a href="{% url 'app:logout' %}" title="Sair">{% include 'app/svg/logout.svg' %}</a></li>

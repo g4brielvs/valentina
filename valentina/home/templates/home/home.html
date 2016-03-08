@@ -7,10 +7,9 @@
 
 <div class="inner_container">
   <div class="title">
-    <h1><img src="{% static 'img/valentina.png' %}" alt="Valentina"/>
-    </div><!-- end div.title -->
+    <h1>{% include 'home/svg/valentina.svg' %}</h1>
+  </div><!-- end div.title -->
   <div class="headline">
-    </h1>
     <p>Muitas denúncias de assédio não são levadas até o fim por medo,
       arrependimento, culpa e repressão.</p>
     <p>Aqui você tem espaço de ouvir e ser ouvida. Juntas temos mais força e voz.</p>
@@ -18,27 +17,35 @@
   </div><!-- end div.headline -->
   <div class="login">
     <a id="login" href="{% url 'oauth:begin' 'facebook' %}">
-      Entrar com o Facebook
+      {% include 'app/svg/facebook.svg' %} Entrar com o Facebook
     </a>
   </div><!-- end div.login -->
 </div><!-- end div.inner_container -->
 
 <div class="inner_container">
-  <div class="steps">
-    <img alt="Traga" src={% static 'img/add.png' %}>
-    <h3>Encontre o perfil de quem te assediou</h3>
+  <div class="steps step1">
+    {% include 'home/svg/screens.svg' %}
+    <h3>Identifique & Compartilhe</h3>
+    <p>
+      Encontre aqui o seu agressor. Ele provavelmente já agrediu outras
+      mulheres, você não está sozinha!  O diálogo é a nossa força. 
+    </p>
   </div>
-  <div class="steps">
-    <img alt="Compartilhe" src={% static 'img/share.png' %}>
-    <h3>Fale sobre quem tem assediou</h3>
+  <div class="steps step2">
+    {% include 'home/svg/cat.svg' %}
+    <h3>Privacidade & Segurança</h3>
+    <p>
+      Aqui o espaço é exclusivo para mulheres. Nosso ambiente é seguro e de
+      sigilo absoluto. Pode confiar!
+    </p>
   </div>
-  <div class="steps">
-    <img alt="Seguro" src={% static 'img/safe.png' %}>
-    <h3>Todas as salas são espaços acolhedores</h3>
-  </div>
-  <div class="steps">
-    <img alt="Reporte" src={% static 'img/report.png' %}>
-    <h3>Denuncie algo grosseiro ou perigoso</h3>
+  <div class="steps step3">
+    {% include 'home/svg/mouse.svg' %}
+    <h3>Denuncie</h3>
+    <p>
+      Reporte algo grosseiro ou perigoso. Com um click você nos avisa se alguém
+      está passando dos limites.
+    </p>
   </div>
 </div><!-- end div.inner_container -->
 
