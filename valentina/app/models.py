@@ -27,12 +27,7 @@ class Profile(models.Model):
     @staticmethod
     def create_nickname():
         faker = Factory.create(settings.LANGUAGE_CODE)
-        suffix = 'a'
-        exceptions = ('Davi Lucca', 'Lucca')
-        nickname = faker.first_name_female()
-        while not nickname.endswith(suffix) or nickname in exceptions:
-            nickname = faker.first_name_female()
-        return nickname
+        return faker.first_name_female()
 
     class Meta:
         ordering = ['nickname']
