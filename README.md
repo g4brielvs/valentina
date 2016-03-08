@@ -1,5 +1,7 @@
 # Valentina 
 
+[![Build Status](https://travis-ci.org/valentinavc/valentina.svg?branch=master)](https://travis-ci.org/valentinavc/valentina)
+
 WIP (i.e. work in progress), but feel free to get in touh and join us.
 
 ## Install
