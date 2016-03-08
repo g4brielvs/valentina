@@ -177,4 +177,4 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.user_details',
 )
 
-FACEBOOK_APP_TOKEN = config('FACEBOOK_APP_TOKEN')
+FACEBOOK_APP_TOKEN = config('FACEBOOK_APP_TOKEN', default=None)
