@@ -14,3 +14,12 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['nickname']
+
+
+class AffiliationForm(forms.Form):
+    person = forms.CharField()
+    alias = forms.CharField()
+
+
+class FacebookSearchForm(forms.Form):
+    url = forms.URLField()

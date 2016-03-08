@@ -4,7 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from django.conf import settings
-from valentina.app.forms import MessageForm, ProfileForm
+from valentina.app.facebook import GetFacebookData
+from valentina.app.forms import (MessageForm, ProfileForm, FacebookSearchForm,
+                                 AffiliationForm)
 from valentina.app.models import Profile, Chat, Message, Affiliation
 
 
@@ -86,6 +88,45 @@ def profile(request):
     return HttpResponseNotAllowed(['POST'])
 
 
+@login_required(login_url='/')
+def facebook(request):
+
+    if request.method != 'POST' or not request.is_ajax():
+        return HttpResponseNotAllowed(['POST'])
+
+    form = FacebookSearchForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse({'error': 'URL inválida.'})
+
+    person = GetFacebookData(form.cleaned_data.get('url'),
+                             request.user.profile.access_token)
+
+    return JsonResponse(person.data)
+
+
+@login_required(login_url='/')
+def affiliation(request):
+
+    if request.method != 'POST' or not request.is_ajax():
+        return HttpResponseNotAllowed(['POST'])
+
+    form = AffiliationForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse({'error': form.errors})
+
+    alias = form.cleaned_data.get('alias')
+    chat, created = Chat.objects.get_or_create(person=form.cleaned_data.get('person'))
+    affiliation = Affiliation.objects.filter(chat=chat, user=request.user).first()
+    if affiliation:
+        affiliation.alias = alias
+        affiliation.save()
+    else:
+        affiliation = Affiliation.objects.create(chat=chat, user=request.user,
+                                                 alias=alias)
+
+    return JsonResponse(_affiliation_to_dict(affiliation))
+
+
 def logout(request):
     auth_logout(request)
     return redirect(resolve_url('home'))
@@ -118,8 +159,11 @@ def _message_to_dict(request, message):
 def _affiliations_to_ctx(user):
     output = list()
     for affiliation in Affiliation.objects.filter(user=user):
-        data = dict(url=resolve_url('app:chat', affiliation.chat.pk),
-                    alias=affiliation.alias,
-                    valentinas=affiliation.chat.affiliation_set.count())
-        output.append(data)
+        output.append(_affiliation_to_dict(affiliation))
     return output
+
+
+def _affiliation_to_dict(affiliation):
+    return dict(url=resolve_url('app:chat', affiliation.chat.pk),
+                alias=affiliation.alias,
+                valentinas=affiliation.chat.affiliation_set.count())

@@ -10,7 +10,7 @@ main
     margin-top: 2rem
 
   nav.app
-    @include clearfix
+    +clearfix
     margin: 0 1rem
     h1
       float: left
@@ -24,17 +24,17 @@ main
       display: inline
       margin-left: .5rem
     svg
-      @include size(1.6rem)
+      +size(1.6rem)
       fill: $main_text_color
 
   form.preferences
-    @include flex(1)
+    +flex(1)
     display: none
     p, h3
       margin: 2rem 1rem 0 1rem
 
   form.search-bar
-    @include clearfix
+    +clearfix
     position: relative
     span
       background: transparent
@@ -43,23 +43,36 @@ main
       position: absolute
       top: .6rem
     svg
-      @include size(1.2rem)
+      +size(1.2rem)
     span
       z-index: 10
 
+  div#facebook
+    +clearfix
+    margin: 1rem 1rem 0 1rem
+    a
+      text-align: center
+    form
+      margin-top: 2rem
+
   nav.chat_list
 
-    @include flex(1)
+    +flex(1)
     overflow: scroll
 
-    h3, form, li
+    div.chats
+      display: block
+      &.hidden
+        display: none
+
+    h3, form.search-bar, form.preferences, li
       margin: 0 1rem
     h3
       margin-top: 2rem
     li
       display: block
     a
-      @include clearfix
+      +clearfix
       display: block
       margin-top: 1rem
       padding: .5rem

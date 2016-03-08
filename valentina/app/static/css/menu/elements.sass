@@ -9,6 +9,10 @@ main
     color: $main_text_color
     text-decoration: none
 
+  form.preferences
+    button
+      border: rem(1) solid #fff
+
   form.search-bar
     svg
       fill: tint($main_background_color, 70%)
@@ -20,6 +24,18 @@ main
       color: $main_background_color
       svg
         fill: tint($main_background_color, 40%)
+
+  div#facebook
+    a
+      display: block
+      text-align: center
+    img
+      width: 7rem
+      border-radius: 50%
+    label
+      font-weight: $normal-weight
+    button
+      border: rem(1) solid #fff
 
   nav.chat_list
     li a

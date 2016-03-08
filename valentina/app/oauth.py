@@ -10,4 +10,5 @@ def save_profile(backend, user, response, *args, **kwargs):
             profile = Profile(user=user)
         profile.gender = FB_GENDER.get(response.get('gender'), Profile.OTHER)
         profile.timezone = response.get('timezone', '')
+        profile.access_token = response.get('access_token', '')
         profile.save()

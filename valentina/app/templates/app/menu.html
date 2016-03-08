@@ -26,25 +26,26 @@
   <nav class="chat_list">
 
     <div>
-      <form class="search-bar">
+      <form name="facebook-search" class="search-bar" action="{% url 'app:facebook' %}" method="post">
         <span>{% include 'app/svg/facebook.svg' %}</span>
         <input type="search" name="url" placeholder="Cole a URL do Facebook do agressor" />
         <button type="submit">{% include 'app/svg/magnifier.svg' %}</button>
       </form>
+      <div id="facebook"></div>
 
-      {% if chats %}
-      <h3>Seus grupos</h3>
-      <ul>
-        {% for chat in chats %}
-        <li data-chat-url="{{ chat.url }}">
-          <a>
-            <span class="chat_alias">{{ chat.alias }}</span>
-            <span class="users">{{ chat.valentinas }} Valentina{{ chat.valentinas|pluralize }}</span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-      {% endif %}
+      <div class="chats{% if not chats %} hidden{% endif %}">
+        <h3>Seus grupos</h3>
+        <ul>
+          {% for chat in chats %}
+          <li data-chat-url="{{ chat.url }}">
+            <a>
+              <span class="chat_alias">{{ chat.alias }}</span>
+              <span class="users">{{ chat.valentinas }} Valentina{{ chat.valentinas|pluralize }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div><!-- div.chats -->
 
     </nav><!-- end nav.chat_list -->
   </div>

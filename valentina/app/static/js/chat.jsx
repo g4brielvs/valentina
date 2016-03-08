@@ -150,7 +150,13 @@ var get_chats = function () {
   return chats;
 };
 
-ReactDOM.render(
+var chat_boxes = ReactDOM.render(
   <ChatBoxes chats={get_chats()} />,
   document.getElementById('chat_panels')
 );
+
+// make render_chats available globally so users can add chat boxes from outside
+global.render_chats = function () {
+  var chats = get_chats();
+  chat_boxes.setState({chats: chats});
+};
