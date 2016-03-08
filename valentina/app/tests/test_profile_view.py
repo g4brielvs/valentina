@@ -30,7 +30,8 @@ class TestProfile(TestCase):
 
     def test_post_with_login(self):
         self.login = self.client.login(username='valentinavc', password='valentinavc')
-        resp = self.client.post(resolve_url('app:profile'), {'nickname': 'ciclana'})
+        resp = self.client.post(resolve_url('app:profile'), {'nickname': 'ciclana'},
+                                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         user = User.objects.get(pk=self.user.pk)
         with self.subTest():
             self.assertEqual(200, resp.status_code)

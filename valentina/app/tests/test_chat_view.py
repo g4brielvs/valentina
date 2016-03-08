@@ -36,7 +36,8 @@ class TestGetWithLogin(TestCase):
         # login and GET
         self.login = self.client.login(username='valentinavc',
                                        password='valentina')
-        self.resp = self.client.get(resolve_url('app:chat', self.chat.pk))
+        self.resp = self.client.get(resolve_url('app:chat', self.chat.pk),
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     def test_get_with_login(self):
         with self.subTest():
@@ -88,7 +89,8 @@ class TestPostWithLogin(TestCase):
         self.login = self.client.login(username='valentinavc',
                                        password='valentina')
         data = {'content': 'Hello, world', 'chat': self.chat.pk}
-        self.resp = self.client.post(resolve_url('app:chat', self.chat.pk), data)
+        self.resp = self.client.post(resolve_url('app:chat', self.chat.pk),
+                                     data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     def test_get_with_login(self):
         with self.subTest():
