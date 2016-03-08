@@ -21,8 +21,13 @@ def welcome(request):
     if not _valid_user(request.user):
         return redirect(resolve_url('female_only'))
 
+    # suggest random nickname for new users
+    profile = request.user.profile
+    nickname = profile.nickname
+    random_nickname = profile.create_nickname() if not nickname else None
+
     context = {'chats': _affiliations_to_ctx(request.user),
-               'nickname': request.user.profile.nickname}
+               'nickname': nickname, 'random_nickname': random_nickname}
 
     return render(request, 'app/home.html', context)
 

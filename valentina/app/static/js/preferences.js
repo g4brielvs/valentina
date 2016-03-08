@@ -26,19 +26,51 @@ preferences.find('button[type=submit]').click(function(e){
   $(this).attr('disabled');
   $(this).html('Salvando…');
   var nickname = preferences.find('input[name=nickname]').val();
-  $.ajax({
-    url: e.currenttarget.action,
-    dataType: 'json',
-    type: 'POST',
-    data: {nickname: nickname},
-    success: function(data) {
-      $(this).removeAttr('disabled').html('salvar');
-      show_chat_list();
-    }.bind(this),
-    error: function(xhr, status, err){
-      $(this).removeAttr('disabled')
-      $(this).html('Salvar');
-      console.error(e.currenttarget.action, status, err.toString());
-    }.bind(this)
-  });
+  var url = preferences.attr('action');
+  if (nickname) {
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      type: 'POST',
+      data: {nickname: nickname},
+      success: function(data) {
+        $(this).removeAttr('disabled').html('Salvar');
+        show_chat_list();
+        var main = $('main.col');
+        if (main.hasClass('first_access')) {
+          first_access_mode(false);
+          main.removeClass('first_access');
+        }
+      }.bind(this),
+      error: function(xhr, status, err){
+        $(this).removeAttr('disabled')
+        $(this).html('Salvar');
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  }
 });
+
+var first_access_mode = function (first_access) {
+  var label = this.find('span');
+  if (first_access) {
+    $('#preferences').hide();
+    this.find('button[type=reset]').hide();
+    this.find('h3').hide();
+    label.html(label.html().replace('é', 'será'));
+  } else {
+    $('#preferences').show();
+    this.find('button[type=reset]').show();
+    this.find('h3').show();
+    label.html(label.html().replace('será', 'é'));
+  }
+}.bind(preferences);
+
+var first_access = function () {
+  if ($('main.col').hasClass('first_access')) {
+    show_preferences();
+    first_access_mode(true);
+  }
+};
+
+first_access();

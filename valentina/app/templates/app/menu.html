@@ -1,5 +1,5 @@
 {% load static from staticfiles %}
-<main class="col">
+<main class="col{% if not nickname %} first_access{% endif %}">
   
   <nav class="app">
     <div>
@@ -14,8 +14,8 @@
   <form class="preferences" action="{% url 'app:profile' %}" method="post">
     <h3>Preferências</h3>
     <p>
-      Aqui você é conhecida como
-      <input name="nickname" type="text" value="{{ nickname }}"> 
+      <span>Aqui você é conhecida como</span>
+      <input name="nickname" type="text" value="{% firstof nickname random_nickname %}"> 
     </p>
     <p>
       <button type="reset">Cancelar</button>

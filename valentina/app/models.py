@@ -28,7 +28,7 @@ class Profile(models.Model):
     def create_nickname():
         faker = Factory.create(settings.LANGUAGE_CODE)
         suffix = 'a'
-        exceptions = ('Valentina', 'Lucca')
+        exceptions = ('Davi Lucca', 'Lucca')
         nickname = faker.first_name_female()
         while not nickname.endswith(suffix) or nickname in exceptions:
             nickname = faker.first_name_female()
