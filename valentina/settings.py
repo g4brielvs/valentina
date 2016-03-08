@@ -140,6 +140,7 @@ COMPRESS_PRECOMPILERS = (
     ('text/x-babel', 'node_modules/.bin/browserify {infile} | node_modules/.bin/uglifyjs -c > {outfile}'),
 )
 COMPRESS_OUTPUT_DIR = 'compress'
+COMPRESS_ENABLED = True
 
 # python-social-auth
 # http://python-social-auth.readthedocs.org
