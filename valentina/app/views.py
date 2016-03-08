@@ -103,8 +103,8 @@ def facebook(request):
     if not form.is_valid():
         return JsonResponse({'error': 'URL inválida.'})
 
-    person = GetFacebookData(form.cleaned_data.get('url'),
-                             request.user.profile.access_token)
+    token = _get_token(request.user)
+    person = GetFacebookData(form.cleaned_data.get('url'), token=token)
 
     return JsonResponse(person.data)
 
@@ -164,6 +164,17 @@ def _valid_user(user):
             return True
 
     return False
+
+
+def _get_token(user):
+
+    # use APP_TOKEN if user is staff
+    if user.is_staff:
+        return settings.FACEBOOK_APP_TOKEN
+
+    # use USER_TOKEN otherwise
+    if hasattr(user, 'profile'):
+        return user.profile.access_token
 
 
 def _message_to_dict(request, message):
