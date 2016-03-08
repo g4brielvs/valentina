@@ -141,6 +141,7 @@ COMPRESS_PRECOMPILERS = (
 )
 COMPRESS_OUTPUT_DIR = 'compress'
 COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = config('COMPRESS_OFFLINE', default=False)
 
 # python-social-auth
 # http://python-social-auth.readthedocs.org
