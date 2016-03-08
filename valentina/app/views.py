@@ -1,13 +1,13 @@
 import arrow
+from django.conf import settings
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
-from django.conf import settings
 from valentina.app.facebook import GetFacebookData
 from valentina.app.forms import (MessageForm, ProfileForm, FacebookSearchForm,
-                                 AffiliationForm)
-from valentina.app.models import Profile, Chat, Message, Affiliation
+                                 ReportForm, AffiliationForm)
+from valentina.app.models import Profile, Chat, Message, Affiliation, Report
 
 
 @login_required(login_url='/')
@@ -130,6 +130,21 @@ def affiliation(request):
                                                  alias=alias)
 
     return JsonResponse(_affiliation_to_dict(affiliation))
+
+
+@login_required(login_url='/')
+def report(request):
+
+    if request.method != 'POST' or not request.is_ajax():
+        return HttpResponseNotAllowed(['POST'])
+
+    form = ReportForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse({'error': form.errors})
+
+    message = get_object_or_404(Message, pk=form.cleaned_data.get('pk'))
+    report = Report.objects.create(message=message, user=request.user)
+    return JsonResponse({'report': report.pk}, status=201)
 
 
 def logout(request):

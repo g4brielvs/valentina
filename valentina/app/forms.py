@@ -23,3 +23,7 @@ class AffiliationForm(forms.Form):
 
 class FacebookSearchForm(forms.Form):
     url = forms.URLField()
+
+
+class ReportForm(forms.Form):
+    pk = forms.IntegerField()

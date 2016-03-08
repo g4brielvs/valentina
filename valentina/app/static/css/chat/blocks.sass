@@ -20,11 +20,11 @@ section.chat
       float: right
       margin: 0
       padding: 0
-      @include media($desktop)
+      +media($desktop)
         display: none
 
   .timeline
-    @include flex(1)
+    +flex(1)
     overflow: scroll
 
   li
@@ -42,11 +42,10 @@ section.chat
     line-height: .8rem
 
   .author
-    span
     a
       display: block
       float: right
       svg
-        @include size(1rem)
-        @include transform(translateY(.1rem))
+        +size(1rem)
+        +transform(translateY(.1rem))
         margin: 0 .25rem

@@ -76,3 +76,14 @@ class Affiliation(models.Model):
     class Meta:
         verbose_name = 'afiliação'
         verbose_name_plural = 'afiliações'
+
+
+class Report(models.Model):
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    message = models.ForeignKey('Message', on_delete=models.CASCADE)
+    created_at = models.DateTimeField('criado em', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'denúncia'
+        verbose_name_plural = 'denúncias'
