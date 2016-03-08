@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY', default='my-secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
 
 # Application definition
@@ -146,9 +146,9 @@ COMPRESS_OFFLINE = config('COMPRESS_OFFLINE', default=False)
 # python-social-auth
 # http://python-social-auth.readthedocs.org
 
-SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY', default='abc')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email']
-SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET', default='abc')
 SOCIAL_AUTH_INACTIVE_USER_URL = '/app/blocked/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/app/'
 SOCIAL_AUTH_LOGIN_URL = '/'
