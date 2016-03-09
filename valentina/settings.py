@@ -135,13 +135,15 @@ STATICFILES_FINDERS = (
 )
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-COMPRESS_PRECOMPILERS = (
-    ('text/x-sass', 'sassc --include-path bower_components --include-path valentina/home/static/css --style compressed {infile} {outfile}'),
-    ('text/x-babel', 'node_modules/.bin/browserify {infile} | node_modules/.bin/uglifyjs -c > {outfile}'),
-)
 COMPRESS_OUTPUT_DIR = 'compress'
 COMPRESS_ENABLED = True
 COMPRESS_OFFLINE = config('COMPRESS_OFFLINE', default=False)
+
+BROWSERIFY_BIN = config('BROWSERIFY_BIN', default='browserify')
+COMPRESS_PRECOMPILERS = (
+    ('text/x-sass', 'sassc --include-path bower_components --include-path valentina/home/static/css --style compressed {infile} {outfile}'),
+    ('text/x-babel', '{} {{infile}}'.format(BROWSERIFY_BIN)),
+)
 
 # python-social-auth
 # http://python-social-auth.readthedocs.org
