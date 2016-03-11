@@ -88,3 +88,16 @@ class Report(models.Model):
     class Meta:
         verbose_name = 'denúncia'
         verbose_name_plural = 'denúncias'
+
+
+class Ip(models.Model):
+
+    address = models.GenericIPAddressField(verbose_name='IP', null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             verbose_name='Usuária')
+    created_at = models.DateTimeField('criado em', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'endereço de IP'
+        verbose_name_plural = 'endereços de IP'

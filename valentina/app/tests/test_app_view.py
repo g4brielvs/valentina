@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import resolve_url
 from django.test import TestCase
-from valentina.app.models import Profile, Chat, Affiliation
+from valentina.app.models import Profile, Chat, Affiliation, Ip
 
 
 class TestGetApp(TestCase):
@@ -45,6 +45,9 @@ class TestGetWithFemaleUserAuthenticated(TestGetApp):
         url = resolve_url('app:logout')
         expected = 'href="{}"'.format(url)
         self.assertContains(self.resp, expected)
+
+    def test_ip_is_saved(self):
+        self.assertTrue(Ip.objects.filter(user=self.user).exists())
 
 
 class TestGetAppWithMaleUser(TestCase):
