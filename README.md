@@ -1,6 +1,8 @@
 # Valentina 
 
 [![Build Status](https://travis-ci.org/valentinavc/valentina.svg?branch=master)](https://travis-ci.org/valentinavc/valentina)
+[![Coverage Status](https://coveralls.io/repos/github/valentinavc/valentina/badge.svg?branch=master)](https://coveralls.io/github/valentinavc/valentina?branch=master)
+[![Code Climate](https://codeclimate.com/github/valentinavc/valentina/badges/gpa.svg)](https://codeclimate.com/github/valentinavc/valentina)
 
 WIP (i.e. work in progress), but feel free to get in touh and join us.
 

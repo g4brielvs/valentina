@@ -1,6 +1,7 @@
 *.pyc
 *.sqlite3
 .DS_Store
+.coverage
 .env
 .ropeproject/
 .sass-cache

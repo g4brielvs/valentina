@@ -13,6 +13,6 @@ before_script:
   - python manage.py migrate
   - python manage.py collectstatic --no-input
 script:
-  - python manage.py test -v 3
+  - coverage run --source=valentina manage.py test -v 3
 after_success:
   - coveralls
