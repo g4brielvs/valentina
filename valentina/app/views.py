@@ -47,10 +47,10 @@ def list_messages(request, pk):
 
     chat = get_object_or_404(Chat, pk=pk)
     affiliation = get_object_or_404(Affiliation, chat=chat, user=request.user)
-    messages = Message.objects.filter(chat=chat)[:50]
+    msgs = Message.objects.filter(created_at__gt=affiliation.created_at)[:50]
 
     chat_details = {'id': chat.pk, 'alias': affiliation.alias}
-    messages = [_message_to_dict(request, msg) for msg in messages]
+    messages = [_message_to_dict(request, msg) for msg in msgs]
 
     return JsonResponse({'chat': chat_details, 'messages': messages})
 

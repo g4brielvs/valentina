@@ -72,6 +72,7 @@ class Affiliation(models.Model):
                              on_delete=models.CASCADE,
                              verbose_name='Usuária')
     alias = models.CharField('Nome fictício', max_length=140)
+    created_at = models.DateTimeField('criado em', auto_now_add=True)
 
     class Meta:
         verbose_name = 'afiliação'
