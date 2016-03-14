@@ -16,3 +16,6 @@ script:
   - coverage run --source=valentina manage.py test -v 3
 after_success:
   - coveralls
+addons:
+  code_climate:
+    repo_token: 85edc29b4d5e984373358286806b91c285891c3d0279d2fe6605cf074e4aec1e
