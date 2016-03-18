@@ -14,7 +14,7 @@ class TestGetApp(TestCase):
         self.user = User.objects.create_user(**self.credentials)
         data = dict(user=self.user, gender=Profile.FEMALE, nickname='SrtaX')
         Profile.objects.create(**data)
-        self.chat = Chat.objects.all().first()
+        self.chat = Chat.objects.first()
         Affiliation.objects.create(chat=self.chat, user=self.user, alias='Tom')
 
 

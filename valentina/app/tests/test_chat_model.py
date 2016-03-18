@@ -11,5 +11,5 @@ class TestChatModel(TestCase):
         self.assertTrue(Chat.objects.exists())
 
     def test_srt(self):
-        chat = Chat.objects.all().first()
+        chat = Chat.objects.first()
         self.assertEqual('42', chat.person)

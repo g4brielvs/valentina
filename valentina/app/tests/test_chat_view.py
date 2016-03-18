@@ -14,7 +14,7 @@ class TestGet(TestCase):
         # create user with password and affiliate her to a chatroom
         self.user = User.objects.create_user('valentinavc',
                                              password='valentina')
-        self.chat = Chat.objects.all().first()
+        self.chat = Chat.objects.first()
         Profile.objects.create(user=self.user, gender=Profile.FEMALE)
         self.affiliation = Affiliation.objects.create(chat=self.chat,
                                                       user=self.user,
@@ -70,7 +70,7 @@ class TestPost(TestCase):
 
         # create user with password and affiliate her to a chatroom
         self.user = User.objects.create_user('valentinavc', password='valentina')
-        self.chat = Chat.objects.all().first()
+        self.chat = Chat.objects.first()
         Profile.objects.create(user=self.user, gender=Profile.FEMALE, nickname='valanon')
         Affiliation.objects.create(chat=self.chat, user=self.user, alias='Geek')
 
