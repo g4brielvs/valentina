@@ -147,8 +147,10 @@ def affiliation(request):
 @login_required(login_url='/')
 def report(request):
 
-    if request.method != 'POST' or not request.is_ajax():
-        return HttpResponseNotAllowed(['POST'])
+    # abort if invalid request
+    should_abort = _should_abort(request, 'POST')
+    if should_abort:
+        return should_abort
 
     form = ReportForm(request.POST)
     if not form.is_valid():

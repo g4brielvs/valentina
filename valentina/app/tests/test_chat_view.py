@@ -4,23 +4,7 @@ from django.test import TestCase
 from valentina.app.models import Profile, Chat, Affiliation, Message
 
 
-class TestGetWithoutLogin(TestCase):
-
-    fixtures = ['users.json', 'profiles.json', 'chats.json',
-                'affiliations.json', 'messages.json']
-
-    def setUp(self):
-        self.chat = Chat.objects.all().first()
-        self.resp = self.client.get(resolve_url('app:chat', self.chat.pk))
-
-    def test_get_without_login(self):
-        home_url = resolve_url('home')
-        chat_url = resolve_url('app:chat', self.chat.pk)
-        expected = '{}?next={}'.format(home_url, chat_url)
-        self.assertRedirects(self.resp, expected)
-
-
-class TestGetWithLogin(TestCase):
+class TestGet(TestCase):
 
     fixtures = ['users.json', 'profiles.json', 'chats.json',
                 'affiliations.json', 'messages.json']
@@ -42,7 +26,7 @@ class TestGetWithLogin(TestCase):
         self.resp = self.client.get(resolve_url('app:chat', self.chat.pk),
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-    def test_get_with_login(self):
+    def test_get(self):
         with self.subTest():
             self.assertTrue(self.login)
             self.assertEqual(200, self.resp.status_code)
@@ -77,24 +61,7 @@ class TestGetWithLogin(TestCase):
             self.assertEqual(3, len(json_resp['messages']))
 
 
-class TestPostWithoutLogin(TestCase):
-
-    fixtures = ['users.json', 'profiles.json', 'chats.json',
-                'affiliations.json', 'messages.json']
-
-    def setUp(self):
-        self.chat = Chat.objects.all().first()
-        data = {'content': 'Hello, world', 'chat': self.chat.pk}
-        self.resp = self.client.post(resolve_url('app:chat', self.chat.pk), data)
-
-    def test_post_without_login(self):
-        home_url = resolve_url('home')
-        chat_url = resolve_url('app:chat', self.chat.pk)
-        expected = '{}?next={}'.format(home_url, chat_url)
-        self.assertRedirects(self.resp, expected)
-
-
-class TestPostWithLogin(TestCase):
+class TestPost(TestCase):
 
     fixtures = ['users.json', 'profiles.json', 'chats.json',
                 'affiliations.json', 'messages.json']
@@ -114,7 +81,7 @@ class TestPostWithLogin(TestCase):
         self.resp = self.client.post(resolve_url('app:chat', self.chat.pk),
                                      data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-    def test_get_with_login(self):
+    def test_post(self):
         with self.subTest():
             self.assertTrue(self.login)
             self.assertEqual(201, self.resp.status_code)
