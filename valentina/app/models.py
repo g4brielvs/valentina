@@ -18,6 +18,7 @@ class Profile(models.Model):
     gender = models.CharField('gênero', max_length=1, choices=GENDERS)
     timezone = models.CharField('fuso-horário', max_length=255)
     nickname = models.CharField('apelido', max_length=255)
+    blocked = models.BooleanField('bloqueada', default=False)
     access_token = models.CharField('Facebook access token', max_length=255,
                                     blank=True)
 

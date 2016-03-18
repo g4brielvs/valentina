@@ -18,7 +18,7 @@ class TestProfile(TestCase):
 
     def test_get_with_login(self):
         self.login = self.client.login(username='valentinavc', password='valentinavc')
-        resp = self.client.get(resolve_url('app:profile'))
+        resp = self.client.get(resolve_url('app:profile'), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(405, resp.status_code)
 
     def test_post_without_login(self):

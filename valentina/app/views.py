@@ -2,7 +2,8 @@ import arrow
 from django.conf import settings
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseNotAllowed
+from django.http import (JsonResponse, HttpResponse, HttpResponseForbidden,
+                         HttpResponseNotAllowed)
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from valentina.app.facebook import GetFacebookData
 from valentina.app.forms import (MessageForm, ProfileForm, FacebookSearchForm,
@@ -13,13 +14,10 @@ from valentina.app.models import Profile, Chat, Message, Affiliation, Report
 @login_required(login_url='/')
 def welcome(request):
 
-    # abort if request has no user
-    if not request.user:
-        return redirect(resolve_url('home'))
-
-    # abort if user is not valid
-    if not _valid_user(request.user):
-        return redirect(resolve_url('female_only'))
+    # abort if invalid request
+    should_abort = _should_abort(request, 'GET', ajax_only=False)
+    if should_abort:
+        return should_abort
 
     # suggest random nickname for new users
     profile = request.user.profile
@@ -34,12 +32,17 @@ def welcome(request):
 
 @login_required(login_url='/')
 def chat(request, pk):
-    if request.is_ajax():
-        if request.method == 'POST':
-            return save_message(request, pk)
-        if request.method == 'GET':
-            return list_messages(request, pk)
-    return HttpResponseNotAllowed(['GET', 'POST'])
+
+    # abort if invalid request
+    should_abort = _should_abort(request, ['GET', 'POST'])
+    if should_abort:
+        return should_abort
+
+    if request.method == 'POST':
+        return save_message(request, pk)
+
+    if request.method == 'GET':
+        return list_messages(request, pk)
 
 
 @login_required(login_url='/')
@@ -80,24 +83,28 @@ def save_message(request, pk):
 @login_required(login_url='/')
 def profile(request):
 
-    if request.method == 'POST' and request.is_ajax():
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            nickname = form.cleaned_data.get('nickname')
-            request.user.profile.nickname = nickname
-            request.user.profile.save()
-            return JsonResponse({'nickname': nickname})
-        else:
-            return JsonResponse({'error': form.errors}, status=400)
+    # abort if invalid request
+    should_abort = _should_abort(request, 'POST')
+    if should_abort:
+        return should_abort
 
-    return HttpResponseNotAllowed(['POST'])
+    form = ProfileForm(request.POST)
+    if form.is_valid():
+        nickname = form.cleaned_data.get('nickname')
+        request.user.profile.nickname = nickname
+        request.user.profile.save()
+        return JsonResponse({'nickname': nickname})
+    else:
+        return JsonResponse({'error': form.errors}, status=400)
 
 
 @login_required(login_url='/')
 def facebook(request):
 
-    if request.method != 'POST' or not request.is_ajax():
-        return HttpResponseNotAllowed(['POST'])
+    # abort if invalid request
+    should_abort = _should_abort(request, 'POST')
+    if should_abort:
+        return should_abort
 
     form = FacebookSearchForm(request.POST)
     if not form.is_valid():
@@ -112,22 +119,27 @@ def facebook(request):
 @login_required(login_url='/')
 def affiliation(request):
 
-    if request.method != 'POST' or not request.is_ajax():
-        return HttpResponseNotAllowed(['POST'])
+    # abort if invalid request
+    should_abort = _should_abort(request, 'POST')
+    if should_abort:
+        return should_abort
 
     form = AffiliationForm(request.POST)
     if not form.is_valid():
         return JsonResponse({'error': form.errors})
 
+    chat_data = {'person': form.cleaned_data.get('person')}
+    chat, created = Chat.objects.get_or_create(**chat_data)
+    affiliation_filter = {'chat': chat, 'user': request.user}
+    affiliation = Affiliation.objects.filter(**affiliation_filter).first()
     alias = form.cleaned_data.get('alias')
-    chat, created = Chat.objects.get_or_create(person=form.cleaned_data.get('person'))
-    affiliation = Affiliation.objects.filter(chat=chat, user=request.user).first()
     if affiliation:
         affiliation.alias = alias
         affiliation.save()
     else:
-        affiliation = Affiliation.objects.create(chat=chat, user=request.user,
-                                                 alias=alias)
+        affiliation_data = dict(affiliation_filter)
+        affiliation_data.update({'alias': alias})
+        affiliation = Affiliation.objects.create(**affiliation_data)
 
     return JsonResponse(_affiliation_to_dict(affiliation))
 
@@ -152,18 +164,53 @@ def logout(request):
     return redirect(resolve_url('home'))
 
 
-def _valid_user(user):
+def _should_abort_user(request, should_redirect):
 
     # authorize if user is staff
-    if user.is_staff:
-        return True
+    if request.user.is_staff:
+        return False
 
-    # authorize if user is female
-    if hasattr(user, 'profile'):
-        if user.profile.gender == Profile.FEMALE:
-            return True
+    # authorize if user is female and not blocked
+    if hasattr(request.user, 'profile'):
+        if request.user.profile.gender == Profile.FEMALE:
+            if not request.user.profile.blocked:
+                return False
+            else:
+                blocked = True
+        else:
+            not_female = True
 
-    return False
+    auth_logout(request)
+    if should_redirect:
+        if not_female:
+            return redirect(resolve_url('female_only'))
+        elif blocked:
+            return redirect(resolve_url('blocked'))
+
+    return HttpResponseForbidden()
+
+
+def _should_abort(request, allowed_methods, **kwargs):
+
+    ajax_only = kwargs.get('ajax_only', True)
+    should_redirect = False if ajax_only else True
+
+    # abort if user is not valid
+    should_abort = _should_abort_user(request, should_redirect)
+    if should_abort:
+        return should_abort
+
+    # only accept AJAX requests
+    if not request.is_ajax() and kwargs.get('ajax_only', True):
+        return HttpResponse(status=422)
+
+    # only accept certain methods
+    if isinstance(allowed_methods, str):
+        allowed_methods = [allowed_methods]
+    if request.method not in allowed_methods:
+        return HttpResponseNotAllowed(allowed_methods)
+
+    return None
 
 
 def _get_token(user):

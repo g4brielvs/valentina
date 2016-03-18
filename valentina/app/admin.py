@@ -3,8 +3,8 @@ from valentina.app.models import Affiliation, Chat, Message, Profile, Report
 
 
 class ProfileModelAdmin(admin.ModelAdmin):
-    list_display = ('user', 'nickname', 'gender', 'email', 'last_login',
-                    'date_joined')
+    list_display = ('user', 'blocked', 'nickname', 'gender', 'email',
+                    'last_login', 'date_joined')
     search_fields = ('nickname', 'name', 'email')
 
     def email(self, obj):
