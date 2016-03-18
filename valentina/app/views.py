@@ -169,6 +169,8 @@ def _should_abort_user(request, should_redirect):
         return False
 
     # authorize if user is female and not blocked
+    not_female = False
+    blocked = False
     if hasattr(request.user, 'profile'):
         if request.user.profile.gender == Profile.FEMALE:
             if not request.user.profile.blocked:

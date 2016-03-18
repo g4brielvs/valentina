@@ -50,6 +50,19 @@ class TestGetWithFemaleUserAuthenticated(TestGetApp):
         self.assertTrue(Ip.objects.filter(user=self.user).exists())
 
 
+class TestGetWithBlockedFemaleUserAuthenticated(TestGetApp):
+
+    def setUp(self):
+        super().setUp()
+        self.user.profile.blocked = True
+        self.user.profile.save()
+        self.login = self.client.login(**self.credentials)
+        self.resp = self.client.get(resolve_url('app:welcome'))
+
+    def test_get_for_blocked_female_user(self):
+        self.assertRedirects(self.resp, resolve_url('blocked'))
+
+
 class TestGetAppWithMaleUser(TestCase):
 
     def setUp(self):
