@@ -128,20 +128,16 @@ def affiliation(request):
     if not form.is_valid():
         return JsonResponse({'error': form.errors})
 
+    # make sure chat exists
     chat_data = {'person': form.cleaned_data.get('person')}
     chat, created = Chat.objects.get_or_create(**chat_data)
-    affiliation_filter = {'chat': chat, 'user': request.user}
-    affiliation = Affiliation.objects.filter(**affiliation_filter).first()
-    alias = form.cleaned_data.get('alias')
-    if affiliation:
-        affiliation.alias = alias
-        affiliation.save()
-    else:
-        affiliation_data = dict(affiliation_filter)
-        affiliation_data.update({'alias': alias})
-        affiliation = Affiliation.objects.create(**affiliation_data)
 
-    return JsonResponse(_affiliation_to_dict(affiliation))
+    # create or update affiliation
+    alias = {'alias': form.cleaned_data.get('alias')}
+    fields = {'chat': chat, 'user': request.user, 'defaults': alias}
+    affiliation, created = Affiliation.objects.update_or_create(**fields)
+
+    return JsonResponse(_affiliation_to_dict(affiliation), status=201)
 
 
 @login_required(login_url='/')
