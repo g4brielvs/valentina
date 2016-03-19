@@ -94,11 +94,12 @@ var ChatForm = React.createClass({
   handleSubmit: function(e){
     e.preventDefault();
     var chat = this.props.chat.id;
+    var author = this.props.chat.user;
     var content = this.state.message;
     if (!chat || !content) {
       return;
     }
-    this.props.onMessageSubmit({content: content, chat: chat});
+    this.props.onMessageSubmit({content: content, chat: chat, author: author});
     this.setState({message: ''});
   },
   render: function(){
@@ -137,15 +138,28 @@ var ChatBox = React.createClass({
     });
   },
   handleMessageSubmit: function(message){
+
+    // add a temporary message placeholder to the timeline
+    var messages = this.state.messages;
+    var chat = this.state.chat;
+    var id = chat.user + Date.now() + message.content;
+    message.ago = 'Enviando...';
+    message.id = 'tmp' + id.hashCode();
+    message.className = 'me';
+    var tmpMessages = messages.concat([message]);
+    this.setState({chat: chat, messages: tmpMessages});
+
+    // send message to the server
     $.ajax({
       url: this.props.chat.url,
       dataType: 'json',
       type: 'POST',
-      data: message,
+      data: {content: message.content, chat: message.chat},
       error: function(xhr, status, err){
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
+
   },
   componentDidMount: function(){
     this.loadMessages();
@@ -171,13 +185,25 @@ var ChatBoxes = React.createClass({
       <div>
         {this.state.chats.map(function(chat){
           return (
-            <ChatBox key={chat.key} chat={chat} fetchInterval={3000} />
+            <ChatBox key={chat.key} chat={chat} fetchInterval={3456} />
           );
         })}
       </div>
     );
   }
 });
+
+// simple hash function to gnerate temporary message IDs
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
 
 // Get user chats and render ReactJS components
 

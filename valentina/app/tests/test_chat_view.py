@@ -15,7 +15,10 @@ class TestGet(TestCase):
         self.user = User.objects.create_user('valentinavc',
                                              password='valentina')
         self.chat = Chat.objects.first()
-        Profile.objects.create(user=self.user, gender=Profile.FEMALE)
+        profile_data = {'user': self.user,
+                        'gender': Profile.FEMALE,
+                        'nickname': 'Olivia'}
+        Profile.objects.create(**profile_data)
         self.affiliation = Affiliation.objects.create(chat=self.chat,
                                                       user=self.user,
                                                       alias='Geek')
@@ -58,6 +61,7 @@ class TestGet(TestCase):
         with self.subTest():
             self.assertEqual(json_resp['chat']['id'], self.chat.pk)
             self.assertEqual(json_resp['chat']['alias'], 'Geek')
+            self.assertEqual(json_resp['chat']['user'], 'Olivia')
             self.assertEqual(3, len(json_resp['messages']))
 
 

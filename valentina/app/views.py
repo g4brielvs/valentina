@@ -53,7 +53,9 @@ def list_messages(request, pk):
     msgs_filter = {'chat': chat, 'created_at__gt': affiliation.created_at}
     msgs = Message.objects.filter(**msgs_filter)[:50]
 
-    chat_details = {'id': chat.pk, 'alias': affiliation.alias}
+    chat_details = {'id': chat.pk,
+                    'alias': affiliation.alias,
+                    'user': request.user.profile.nickname}
     messages = [_message_to_dict(request, msg) for msg in msgs]
 
     return JsonResponse({'chat': chat_details, 'messages': messages})
