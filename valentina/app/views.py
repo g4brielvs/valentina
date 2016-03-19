@@ -50,7 +50,8 @@ def list_messages(request, pk):
 
     chat = get_object_or_404(Chat, pk=pk)
     affiliation = get_object_or_404(Affiliation, chat=chat, user=request.user)
-    msgs = Message.objects.filter(created_at__gt=affiliation.created_at)[:50]
+    msgs_filter = {'chat': chat, 'created_at__gt': affiliation.created_at}
+    msgs = Message.objects.filter(**msgs_filter)[:50]
 
     chat_details = {'id': chat.pk, 'alias': affiliation.alias}
     messages = [_message_to_dict(request, msg) for msg in msgs]
