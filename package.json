@@ -26,7 +26,7 @@
     "bower": "^1.7.7",
     "browserify": "^13.0.0",
     "jquery-browserify": "^1.8.1",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7"
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1"
   }
 }
