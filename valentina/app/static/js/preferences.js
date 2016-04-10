@@ -1,59 +1,53 @@
-var $ = require('jquery-browserify');
+const $ = require('jquery-browserify');
 
-var preferences = $('form.preferences');
-var chat_list = $('nav.chat_list');
+// DOM elements
 
-var swap = function (from, to) {
-  from.fadeOut(function(){
-    to.fadeIn();
-  });
-};
+const $preferences = $('form.preferences');
+const $chatList = $('nav.chat_list');
 
-var show_preferences = function (){
-  swap(chat_list, preferences);
-};
+// Show/hide methods
 
-var show_chat_list = function () {
-  swap(preferences, chat_list);
-};
+const swap = (from, to) => from.fadeOut(() => to.fadeIn());
+const showPreferences = () => swap($chatList, $preferences);
+const showChatList = () => swap($preferences, $chatList);
 
-$('#preferences').click(show_preferences);
+// Bind methods
 
-preferences.find('button[type=reset]').click(show_chat_list);
-
-preferences.find('button[type=submit]').click(function(e){
+$('#preferences').click(showPreferences);
+$preferences.find('button[type=reset]').click(showChatList);
+$preferences.find('button[type=submit]').click(function (e) {
   e.preventDefault();
-  $(this).attr('disabled');
-  $(this).html('Salvando…');
-  var nickname = preferences.find('input[name=nickname]').val();
-  var url = preferences.attr('action');
+  $(this).html('Salvando…').attr('disabled');
+  let nickname = $preferences.find('input[name=nickname]').val();
+  let url = $preferences.attr('action');
   if (nickname) {
     $.ajax({
       url: url,
       dataType: 'json',
       type: 'POST',
-      data: {nickname: nickname},
-      success: function(data) {
+      data: { nickname: nickname },
+      success: function (data) {
         $(this).removeAttr('disabled').html('Salvar');
-        show_chat_list();
-        var main = $('main.col');
-        if (main.hasClass('first_access')) {
-          first_access_mode(false);
-          main.removeClass('first_access');
+        showChatList();
+        var $main = $('main.col');
+        if ($main.hasClass('first_access')) {
+          firstAccessMode(false);
+          $main.removeClass('first_access');
         }
       }.bind(this),
-      error: function(xhr, status, err){
-        $(this).removeAttr('disabled')
-        $(this).html('Salvar');
+      error: function (xhr, status, err) {
+        $(this).html('Salvar').removeAttr('disabled');
         console.error(url, status, err.toString());
-      }.bind(this)
+      }.bind(this),
     });
   }
 });
 
-var first_access_mode = function (first_access) {
+// Show preferences on first access
+
+const firstAccessMode = (firstAccess) =>  {
   var label = this.find('span');
-  if (first_access) {
+  if (firstAccess) {
     $('#preferences').hide();
     this.find('button[type=reset]').hide();
     this.find('h3').hide();
@@ -64,13 +58,13 @@ var first_access_mode = function (first_access) {
     this.find('h3').show();
     label.html(label.html().replace('será', 'é'));
   }
-}.bind(preferences);
+};
 
-var first_access = function () {
+const firstAccess = () =>  {
   if ($('main.col').hasClass('first_access')) {
-    show_preferences();
-    first_access_mode(true);
+    showPreferences();
+    firstAccessMode(true);
   }
 };
 
-first_access();
+firstAccess();

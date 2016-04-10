@@ -1,39 +1,40 @@
-var $ = require('jquery-browserify'); 
-var response = $('#facebook');
-var waiting = 'Aguarde alguns instantes enquanto procuramos o perfil da pessoa...';
-var wrong_type = 'O endereço acima não parece ser de um usuário do Facebook, mas de um “página” ou “grupo”.';
+let $ = require('jquery-browserify');
+let $response = $('#facebook');
+let waiting = 'Aguarde alguns instantes enquanto procuramos o perfil da pessoa...';
+let wrongType = 'O endereço acima não parece ser de um usuário do Facebook, mas de um “página” ou “grupo”.';
 
-var facebook_search = function (e) {
+var facebookSearch = (e) =>  {
   e.preventDefault();
   var url = $(e.currentTarget).find('input[name=url]').val();
   if (url) {
-    show_message(waiting);
+    showMessage(waiting);
     $.ajax({
       url: e.currentTarget.action,
       dataType: 'json',
       type: 'POST',
-      data: {url: url},
-      success: function(data){
+      data: { url: url },
+      success: (data) =>  {
         if (data.error) {
-          show_message(data.error);
+          showMessage(data.error);
         } else if (data.type != 'pessoa') {
-          show_message(wrong_type);
+          showMessage(wrongType);
         } else {
-          show_facebook_profile(data);
+          showFacebookProfile(data);
         }
       },
-      error: function(xhr, status, err){
+
+      error: (xhr, status, err) =>  {
         console.error(e.currentTarget.action, status, err.toString());
-      }
+      },
     });
   }
 };
 
-var create_profile_card = function (data) {
-  var link = document.createElement('a');
-  var avatar = document.createElement('img');
+const createProfileCard = (data) =>  {
+  let link = document.createElement('a');
+  let avatar = document.createElement('img');
   link.setAttribute('target', '_blank');
-  link.setAttribute('href', data.link)
+  link.setAttribute('href', data.link);
   avatar.setAttribute('alt', data.name);
   avatar.setAttribute('src', data.picture);
   link.appendChild(avatar);
@@ -42,15 +43,15 @@ var create_profile_card = function (data) {
   return link;
 };
 
-var create_add_form = function (data) {
-  var names = data.name.split(' ');
-  var form = document.createElement('form');
-  var label = document.createElement('label');
-  var alias = document.createElement('input');
-  var why = document.createElement('p');
-  var person = document.createElement('input');
-  var add = document.createElement('button');
-  var cancel = document.createElement('button');
+const createAddForm = (data) =>  {
+  let names = data.name.split(' ');
+  let form = document.createElement('form');
+  let label = document.createElement('label');
+  let alias = document.createElement('input');
+  let why = document.createElement('p');
+  let person = document.createElement('input');
+  let add = document.createElement('button');
+  let cancel = document.createElement('button');
   form.setAttribute('method', 'post');
   form.setAttribute('action', '/app/join/');
   label.innerHTML = 'Apelidar a sala sobre o(a) ' + names[0] + ' de:';
@@ -61,7 +62,7 @@ var create_add_form = function (data) {
   person.setAttribute('name', 'person');
   person.setAttribute('value', data.id);
   add.setAttribute('type', 'submit');
-  add.innerHTML = 'Criar sala'
+  add.innerHTML = 'Criar sala';
   cancel.setAttribute('type', 'reset');
   cancel.innerHTML = 'Cancelar';
   form.appendChild(label);
@@ -73,73 +74,71 @@ var create_add_form = function (data) {
   return form;
 };
 
-var bind_buttons = function(){
-  
+const bindButtons = function () {
+
   // bind cancel
-  this.find('button[type=reset]').click(function(e){
+  this.find('button[type=reset]').click(function (e) {
     this.empty();
     $('input[name=url]').val('');
   }.bind(this));
 
   // bind add
-  this.find('button[type=submit]').click(function(e){
+  this.find('button[type=submit]').click(function (e) {
     e.preventDefault();
-    var person = this.find('input[name=person]').val();
-    var alias = this.find('input[name=alias]').val();
-    var url = $(e.currentTarget).parent().attr('action');
-    var data = {person: person, alias: alias};
+    let person = this.find('input[name=person]').val();
+    let alias = this.find('input[name=alias]').val();
+    let url = $(e.currentTarget).parent().attr('action');
+    let data = { person: person, alias: alias };
     $.ajax({
       url: url,
       dataType: 'json',
       type: 'POST',
       data: data,
-      success: function(data){
+      success: function (data) {
 
-        var li = document.createElement('li');
-        var anchor = document.createElement('a');
-        var alias = document.createElement('span');
-        var valentinas = document.createElement('span');
+        let li = document.createElement('li');
+        let anchor = document.createElement('a');
+        let alias = document.createElement('span');
+        let valentinas = document.createElement('span');
 
         li.setAttribute('data-chat-url', data.url);
-        alias.setAttribute('class', 'chat_alias');
-        alias.innerHTML = data.alias
+        alias.setAttribute('class', 'chatAlias');
+        alias.innerHTML = data.alias;
         valentinas.setAttribute('class', 'users');
         valentinas.innerHTML = data.valentinas + ' Valentina';
-        if (data.valentinas > 1) {
-          valentinas.innerHTML += 's';
-        }
-
+        if (data.valentinas > 1) valentinas.innerHTML += 's';
         anchor.appendChild(alias);
         anchor.appendChild(valentinas);
         li.appendChild(anchor);
 
-        var chat_ul = $(this).parent().find('div.chats').find('ul').first();
-        chat_ul.append(li).removeClass('hidden');
-        global.render_chats();
+        let chatUl = $(this).parent().find('div.chats').find('ul').first();
+        chatUl.append(li).removeClass('hidden');
+        global.renderChats();
 
       }.bind(this),
-      error: function(xhr, status, err){
+
+      error: (xhr, status, err) => {
         console.error(url, status, err.toString());
-      }
+      },
     });
     this.empty();
     $('input[name=url]').val('');
   }.bind(this));
 
-}.bind(response);
+}.bind($response);
 
-var show_facebook_profile = function (data) {
-  var card = create_profile_card(data);
-  var form = create_add_form(data);
+const showFacebookProfile = function (data) {
+  let card = createProfileCard(data);
+  let form = createAddForm(data);
   this.empty().append(card).append(form);
-  bind_buttons();
-}.bind(response);
+  bindButtons();
+}.bind($response);
 
-var show_message = function (text) {
-  var warning = document.createElement('p');
+const showMessage = function (text) {
+  let warning = document.createElement('p');
   warning.innerHTML = text;
   this.empty();
   this.append(warning);
-}.bind(response);
+}.bind($response);
 
-$('form[name=facebook-search]').submit(facebook_search);
+$('form[name=facebook-search]').submit(facebookSearch);
