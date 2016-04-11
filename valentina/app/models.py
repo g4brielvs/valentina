@@ -3,6 +3,9 @@ from django.conf import settings
 from django.db import models
 from django.utils.text import Truncator
 from faker import Factory
+from hashids import Hashids
+
+hashids = Hashids(salt=settings.SECRET_KEY, min_length=8)
 
 
 class Profile(models.Model):
@@ -74,6 +77,16 @@ class Affiliation(models.Model):
                              verbose_name='Usuária')
     alias = models.CharField('Nome fictício', max_length=140)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
+
+    @property
+    def hash_id(self):
+        return self.get_hash_id(self.pk)
+
+    def get_hash_id(self, pk):
+        return hashids.encode(pk)
+
+    def get_id(self, hash_id):
+        return hashids.decode(hash_id)[0]
 
     class Meta:
         verbose_name = 'afiliação'

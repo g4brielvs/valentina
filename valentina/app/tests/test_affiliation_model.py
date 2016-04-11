@@ -13,3 +13,10 @@ class TestAffiliationModel(TestCase):
         Affiliation.objects.create(chat=self.chat, user=self.user,
                                    alias='johndoe')
         self.assertTrue(Affiliation.objects.exists())
+
+    def test_encode_hash_id(self):
+        hash_id = self.affiliation.hash_id
+        with self.subTest():
+            self.assertTrue(hash_id)
+            self.assertNotEqual(1, hash_id)
+            self.assertEqual(1, self.affiliation.get_id(hash_id))
