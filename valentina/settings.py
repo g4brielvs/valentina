@@ -136,8 +136,8 @@ STATICFILES_FINDERS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 COMPRESS_OUTPUT_DIR = 'compress'
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = config('COMPRESS_OFFLINE', default=False)
+COMPRESS_ENABLED = config('COMPRESS_ENABLED', default=True, cast=bool)
+COMPRESS_OFFLINE = config('COMPRESS_OFFLINE', default=False, cast=bool)
 
 BROWSERIFY_BIN = config('BROWSERIFY_BIN', default='browserify')
 COMPRESS_PRECOMPILERS = (
