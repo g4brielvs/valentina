@@ -4,7 +4,7 @@ from django.test import TestCase
 from valentina.app.models import Profile, Chat, Affiliation
 
 
-class TestPost(TestCase):
+class TestAffiliation(TestCase):
 
     fixtures = ['users.json', 'profiles.json', 'chats.json',
                 'affiliations.json', 'messages.json']
@@ -16,12 +16,15 @@ class TestPost(TestCase):
         data = {'user': self.user, 'nickname': 'doe', 'gender': Profile.FEMALE}
         Profile.objects.create(**data)
 
-        # login and GET
+        # login and POST
         self.login = self.client.login(username='joane', password='joane')
-        data = {'person': 'stan_id', 'alias': 'Geek'}
+        self.data = {'person': 'stan_id', 'alias': 'Geek'}
+        self.ajax = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         url = resolve_url('app:affiliation')
-        ajax = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
-        self.resp = self.client.post(url, data=data, **ajax)
+        self.resp = self.client.post(url, data=self.data, **self.ajax)
+
+
+class TestPost(TestAffiliation):
 
     def test_post(self):
         with self.subTest():
@@ -34,11 +37,15 @@ class TestPost(TestCase):
     def test_contents(self):
         json_resp = self.resp.json()
         chat = Chat.objects.first()
-        chat_url = resolve_url('app:chat', chat.pk)
+        chat_url = resolve_url('app:chat', chat.hash_id)
+        affiliation = chat.affiliation_set.filter(user=self.user).first()
         with self.subTest():
             self.assertEqual(json_resp['url'], chat_url)
+            self.assertEqual(json_resp['key'], affiliation.hash_id)
             self.assertEqual(json_resp['alias'], 'Geek')
+            self.assertEqual(json_resp['active'], True)
             self.assertEqual(json_resp['valentinas'], 3)
 
     def test_affiliation_exists(self):
         self.assertTrue(Affiliation.objects.filter(user=self.user).exists())
+

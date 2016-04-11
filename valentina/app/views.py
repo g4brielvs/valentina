@@ -31,7 +31,7 @@ def welcome(request):
 
 
 @login_required(login_url='/')
-def chat(request, pk):
+def chat(request, hash_id):
 
     # abort if invalid request
     should_abort = _should_abort(request, ['GET', 'POST'])
@@ -39,10 +39,10 @@ def chat(request, pk):
         return should_abort
 
     if request.method == 'POST':
-        return save_message(request, pk)
+        return save_message(request, Chat.get_id_from_hash(hash_id))
 
     if request.method == 'GET':
-        return list_messages(request, pk)
+        return list_messages(request, Chat.get_id_from_hash(hash_id))
 
 
 @login_required(login_url='/')
@@ -53,7 +53,7 @@ def list_messages(request, pk):
     msgs_filter = {'chat': chat, 'created_at__gt': affiliation.created_at}
     msgs = Message.objects.filter(**msgs_filter)[:50]
 
-    chat_details = {'id': chat.pk,
+    chat_details = {'key': chat.hash_id,
                     'alias': affiliation.alias,
                     'user': request.user.profile.nickname}
     messages = [_message_to_dict(request, msg) for msg in msgs]
@@ -155,7 +155,8 @@ def report(request):
     if not form.is_valid():
         return JsonResponse({'error': form.errors})
 
-    message = get_object_or_404(Message, pk=form.cleaned_data.get('pk'))
+    pk = Message.get_id_from_hash(form.cleaned_data.get('key'))
+    message = get_object_or_404(Message, pk=pk)
     report = Report.objects.create(message=message, user=request.user)
     return JsonResponse({'report': report.pk}, status=201)
 
@@ -233,7 +234,7 @@ def _message_to_dict(request, message):
     return {'content': message.content,
             'ago': created_at.humanize(locale=settings.LANGUAGE_CODE[:2]),
             'author': message.user.profile.nickname,
-            'id': message.pk,
+            'key': message.hash_id,
             'className': css_class}
 
 
@@ -245,6 +246,8 @@ def _affiliations_to_ctx(user):
 
 
 def _affiliation_to_dict(affiliation):
-    return dict(url=resolve_url('app:chat', affiliation.chat.pk),
+    return dict(url=resolve_url('app:chat', affiliation.chat.hash_id),
+                key=affiliation.hash_id,
                 alias=affiliation.alias,
+                active=affiliation.active,
                 valentinas=affiliation.chat.affiliation_set.count())

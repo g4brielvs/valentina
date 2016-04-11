@@ -8,6 +8,27 @@ from hashids import Hashids
 hashids = Hashids(salt=settings.SECRET_KEY, min_length=8)
 
 
+class HashIdModel(models.Model):
+
+    @property
+    def hash_id(self):
+        return self.get_hash_id(self.pk)
+
+    def get_hash_id(self, pk):
+        return hashids.encode(pk)
+
+    @staticmethod
+    def get_id_from_hash(hash_id):
+        try:
+            pk, *_ = hashids.decode(hash_id)
+            return pk
+        except ValueError:
+            return False
+
+    class Meta:
+        abstract = True
+
+
 class Profile(models.Model):
 
     FEMALE = 'F'
@@ -39,7 +60,7 @@ class Profile(models.Model):
         verbose_name_plural = 'usuárias'
 
 
-class Chat(models.Model):
+class Chat(HashIdModel):
 
     person = models.CharField('identificador', max_length=255)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
@@ -53,7 +74,7 @@ class Chat(models.Model):
         verbose_name_plural = 'chats'
 
 
-class Message(models.Model):
+class Message(HashIdModel):
 
     chat = models.ForeignKey('Chat')
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -69,7 +90,7 @@ class Message(models.Model):
         verbose_name_plural = 'mensagens'
 
 
-class Affiliation(models.Model):
+class Affiliation(HashIdModel):
 
     chat = models.ForeignKey('Chat')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -77,16 +98,7 @@ class Affiliation(models.Model):
                              verbose_name='Usuária')
     alias = models.CharField('Nome fictício', max_length=140)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
-
-    @property
-    def hash_id(self):
-        return self.get_hash_id(self.pk)
-
-    def get_hash_id(self, pk):
-        return hashids.encode(pk)
-
-    def get_id(self, hash_id):
-        return hashids.decode(hash_id)[0]
+    active = models.BooleanField('Janela aberta', default=True)
 
     class Meta:
         verbose_name = 'afiliação'

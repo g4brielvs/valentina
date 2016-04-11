@@ -75,7 +75,7 @@ const ChatTimeline =  React.createClass({
       <div className="timeline">
         <ol>
           {this.props.messages.map((message) => (
-            <li className={message.className} key={message.id} id={message.id}>
+            <li className={message.className} key={message.key}>
               <span className="author">
                 {message.author}
                 <ReportButton className={message.className} />
@@ -162,9 +162,9 @@ const ChatBox = React.createClass({
     // add a temporary message placeholder to the timeline
     let messages = this.state.messages;
     let chat = this.state.chat;
-    let id = chat.user + Date.now() + message.content;
+    let key = chat.user + Date.now() + message.content;
     message.ago = 'Enviando...';
-    message.id = 'tmp' + id.hashCode();
+    message.key = 'tmp' + key.hashCode();
     message.className = 'me';
     let tmpMessages = messages.concat([message]);
     this.setState({ chat: chat, messages: tmpMessages });
@@ -218,21 +218,13 @@ const ChatBoxes = React.createClass({
 
 const getChats = function () {
   let chats = [];
-  let re = /(\/app\/chat\/)(\d+)(\/)/;
-
-  $('li[data-chat-url]').each(function () {
-    chats.push($(this).attr('data-chat-url'));
-  });
-
-  if (chats.length > 0) {
-    return chats.map(function (chat) {
-      return {
-        key: chat.replace(/\//g, ''),
-        id: re.exec(chat)[2],
-        url: chat,
-      };
+  $('li[chat_button]').each(function () {
+    chats.push({
+      key: this.dataset.key,
+      url: this.dataset.url,
+      active: this.dataset.active,
     });
-  }
+  });
 
   return chats;
 };

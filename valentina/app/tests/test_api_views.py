@@ -44,9 +44,9 @@ class TestCaseAPI(TestCase):
         self.message = Message.objects.first()
 
         # list all URLs, their allowed methods, and the required data
-        self.cases = ({'url': resolve_url('app:chat', self.chat.pk),
+        self.cases = ({'url': resolve_url('app:chat', self.chat.hash_id),
                        'allowed_methods': ('get', 'post'),
-                       'data': {'content': 'Hey', 'chat': self.chat.pk}},
+                       'data': {'content': 'Hey', 'chat': self.chat.hash_id}},
                       {'url': resolve_url('app:profile'),
                        'allowed_methods': ('post'),
                        'data': {'nickname': 'Olivia'}},
@@ -55,7 +55,7 @@ class TestCaseAPI(TestCase):
                        'data': {'alias': 'Guy', 'person': '4'}},
                       {'url': resolve_url('app:report'),
                        'allowed_methods': ('post'),
-                       'data': {'pk': self.message.pk}})
+                       'data': {'pk': self.message.hash_id}})
 
         # set main vars for HTTP request tests
         self.ajax_header = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}

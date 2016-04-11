@@ -26,4 +26,4 @@ class FacebookSearchForm(forms.Form):
 
 
 class ReportForm(forms.Form):
-    pk = forms.IntegerField()
+    key = forms.CharField()

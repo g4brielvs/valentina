@@ -4,7 +4,7 @@ from valentina.app.views import (welcome, chat, profile, facebook, affiliation,
 
 urlpatterns = [
     url(r'^$', welcome, name='welcome'),
-    url(r'^chat/(?P<pk>\d+)/$', chat, name='chat'),
+    url(r'^chat/(?P<hash_id>[\d\w]+)/$', chat, name='chat'),
     url(r'^profile/$', profile, name='profile'),
     url(r'^facebook/$', facebook, name='facebook'),
     url(r'^join/$', affiliation, name='affiliation'),
