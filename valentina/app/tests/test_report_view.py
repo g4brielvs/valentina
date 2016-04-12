@@ -4,7 +4,7 @@ from django.test import TestCase
 from valentina.app.models import Profile, Message
 
 
-class TestProfile(TestCase):
+class TestReport(TestCase):
 
     fixtures = ['users.json', 'profiles.json', 'chats.json',
                 'affiliations.json', 'messages.json']
