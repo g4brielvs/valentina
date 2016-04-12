@@ -51,13 +51,11 @@ python manage.py createsuperuser
 
 ### Generate static files
 
-We serve static files through [WhiteNoise](http://whitenoise.evans.io), so you might have to run:
+We serve static files through [WhiteNoise](http://whitenoise.evans.io), so depending on your configuration you might have to run:
 
 ```
 python manage.py collectstatic
 ```
-
-There is [an issue that might cause templates to miss the proper link to assets](https://github.com/valentinavc/valentina/issues/6).
 
 ### Ready?
 
