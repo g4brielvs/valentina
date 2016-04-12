@@ -115,6 +115,38 @@ const ChatsMenu = React.createClass({
     this.setState({ status: 'idle', searchFor: '' });
   },
 
+  handleChatActiveProp: function (chatKey, isActive) {
+
+    // update state
+    this.setState({
+      chats: this.state.chats.map((chat) => {
+        if (chat.key === chatKey) chat.active = isActive;
+        return chat;
+      }),
+    });
+
+    // save in the server
+    $.ajax({
+      type: 'POST',
+      url: '/app/chat/preferences/',
+      data: { key: chatKey, active: isActive },
+      error: (xhr, status, err) => {
+        console.error(url, status, err.toString());
+      },
+    });
+
+    // update chat panels
+    global.renderChats(this.state.chats);
+  },
+
+  handleOpenChat: function (chatKey) {
+    this.handleChatActiveProp(chatKey, true);
+  },
+
+  handleCloseChat: function (chatKey) {
+    this.handleChatActiveProp(chatKey, false);
+  },
+
   render: function () {
     return (
       <div>
@@ -130,7 +162,7 @@ const ChatsMenu = React.createClass({
           handleSearchInput={this.handleSearchInput}
           handleSearchSubmit={this.handleSearchSubmit}
         />
-        <ChatButtons chats={this.state.chats} />
+        <ChatButtons chats={this.state.chats} handleOpenChat={this.handleOpenChat} />
       </div>
     );
   },
@@ -234,35 +266,33 @@ const FormMessage = React.createClass({
 });
 
 const ChatButtons = React.createClass({
+  openChat: function (chat) {
+    this.props.handleOpenChat(chat.key);
+  },
+
   render: function () {
     if (this.props.chats.length > 0) {
       return (
         <div className="chats">
           <h3>Seus grupos</h3>
           <ul>
-            {this.props.chats.map((chat) => <ChatButton key={chat.key} chat={chat} />)}
+            {this.props.chats.map(function (chat) {
+              let valentinas = pluralize(chat.valentinas, 'Valentina');
+              return (
+                <li key={chat.key} onClick={this.openChat.bind(this, chat)}>
+                  <a>
+                    <span className="chat_alias">{chat.alias}</span>
+                    <span className="users">{valentinas}</span>
+                  </a>
+                </li>
+              );
+            }.bind(this))}
           </ul>
         </div>
       );
     } else {
       return (<div></div>);
     }
-  },
-});
-
-const ChatButton = React.createClass({
-  render: function () {
-    return (
-      <li
-        data-url={this.props.chat.url }
-        data-key={this.props.chat.key}
-        data-active={this.props.chat.active}>
-        <a>
-          <span className="chat_alias">{this.props.chat.alias}</span>
-          <span className="users">{pluralize(this.props.chat.valentinas, 'Valentina')}</span>
-        </a>
-      </li>
-    );
   },
 });
 

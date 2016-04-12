@@ -1,9 +1,11 @@
 from django.conf.urls import url
 from valentina.app.views import (welcome, chat, profile, facebook, report,
-                                 create_affiliation, list_affiliations, logout)
+                                 create_affiliation, list_affiliations,
+                                 chat_preferences, logout)
 
 urlpatterns = [
     url(r'^$', welcome, name='welcome'),
+    url(r'^chat/preferences/$', chat_preferences, name='preferences'),
     url(r'^chat/(?P<hash_id>[\d\w]+)/$', chat, name='chat'),
     url(r'^profile/$', profile, name='profile'),
     url(r'^facebook/$', facebook, name='facebook'),

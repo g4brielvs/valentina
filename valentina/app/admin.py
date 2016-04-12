@@ -43,7 +43,7 @@ class MessageModelAdmin(admin.ModelAdmin):
 
 
 class AffiliationModelAdmin(admin.ModelAdmin):
-    list_display = ('user_full_name', 'chat', 'alias')
+    list_display = ('user_full_name', 'active', 'chat', 'alias')
 
     def user_full_name(self, obj):
         name = obj.user.get_full_name()

@@ -27,3 +27,8 @@ class FacebookSearchForm(forms.Form):
 
 class ReportForm(forms.Form):
     key = forms.CharField()
+
+
+class ChatPreferencesForm(forms.Form):
+    key = forms.CharField()
+    active = forms.BooleanField()

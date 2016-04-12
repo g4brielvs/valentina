@@ -240,5 +240,5 @@ const chatBoxes = ReactDOM.render(
 // (so loadChats, from facebook.jsx, can call it once user add/delete chats)
 
 global.renderChats = function (chats) {
-  chatBoxes.setState({ chats: chats });
+  chatBoxes.setState({ chats: chats.filter((chat) => chat.active) });
 };

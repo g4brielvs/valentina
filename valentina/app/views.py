@@ -7,7 +7,8 @@ from django.http import (JsonResponse, HttpResponse, HttpResponseForbidden,
 from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from valentina.app.facebook import GetFacebookData
 from valentina.app.forms import (MessageForm, ProfileForm, FacebookSearchForm,
-                                 ReportForm, AffiliationForm)
+                                 ReportForm, AffiliationForm,
+                                 ChatPreferencesForm)
 from valentina.app.models import Profile, Chat, Message, Affiliation, Report
 
 
@@ -80,6 +81,25 @@ def save_message(request, pk):
                                      content=form.cleaned_data.get('content'))
 
     return JsonResponse(_message_to_dict(request, message), status=201)
+
+
+@login_required(login_url='/')
+def chat_preferences(request):
+
+    # abort if invalid request
+    should_abort = _should_abort(request, ['POST'])
+    if should_abort:
+        return should_abort
+
+    form = ChatPreferencesForm(request.POST)
+    if not form.is_valid():
+        return JsonResponse({'error': form.errors}, status=400)
+
+    pk = Affiliation.get_id_from_hash(form.cleaned_data.get('key'))
+    affiliation = get_object_or_404(Affiliation, pk=pk, user=request.user)
+    affiliation.active = form.cleaned_data.get('active')
+    affiliation.save()
+    return JsonResponse(_affiliation_to_dict(affiliation))
 
 
 @login_required(login_url='/')
