@@ -2,7 +2,7 @@ main
 
   background-color: $main_background_color
 
-  nav.chat_list, form.preferences, footer
+  nav#chat_list, form.preferences, footer
     margin-top: 2rem
     padding-bottom: 0
 
@@ -45,10 +45,14 @@ main
       left: .5rem
       position: absolute
       top: .6rem
+      z-index: 10
     svg
       +size(1.2rem)
-    span
-      z-index: 10
+    button span
+      display: inline
+      left: 0
+      position: relative
+      top: 0
 
   div#facebook
     +clearfix
@@ -58,7 +62,7 @@ main
     form
       margin-top: 2rem
 
-  nav.chat_list
+  nav#chat_list
 
     +flex(1)
     overflow: scroll

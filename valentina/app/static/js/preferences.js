@@ -3,7 +3,7 @@ const $ = require('jquery-browserify');
 // DOM elements
 
 const $preferences = $('form.preferences');
-const $chatList = $('nav.chat_list');
+const $chatList = $('#chat_list');
 
 // Show/hide methods
 

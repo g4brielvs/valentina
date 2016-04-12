@@ -32,14 +32,16 @@ class TestGetWithFemaleUserAuthenticated(TestGetApp):
         self.assertTemplateUsed(self.resp, 'app/home.html')
 
     def test_context(self):
-        variables = ['chats', 'nickname']
+        variables = ['random_nickname', 'nickname']
         for key in variables:
             with self.subTest():
                 self.assertIn(key, self.resp.context)
 
-    def test_chats_attr(self):
-        expected = '<li data-chat-url="'
-        self.assertContains(self.resp, expected)
+    def test_chat_list_data_attr(self):
+        expected = ' data-{}="'
+        for attr in ('search-url', 'join-url', 'facebook', 'magnifier'):
+            with self.subTest():
+                self.assertContains(self.resp, expected.format(attr))
 
     def test_logout_link(self):
         url = resolve_url('app:logout')

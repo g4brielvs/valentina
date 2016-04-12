@@ -7,8 +7,8 @@ class GetFacebookData(object):
 
     TYPES = {'user': 'pessoa', 'page': 'página', 'group': 'Grupo',
              'event': 'evento', 'application': 'aplicativo'}
-    INVALID_URL = """Desculpe, mas a URL digitada não parece de um perfil de
-                     uma pessoa no Facebook."""
+    INVALID_URL = """Desculpe, mas a URL digitada não parece ser de um perfil
+                     de uma pessoa no Facebook."""
     API_URL = 'https://graph.facebook.com'
 
     def __init__(self, url=None, token=None):

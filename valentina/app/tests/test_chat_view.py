@@ -26,7 +26,7 @@ class TestGet(TestCase):
         # login and GET
         self.login = self.client.login(username='valentinavc',
                                        password='valentina')
-        self.resp = self.client.get(resolve_url('app:chat', self.chat.pk),
+        self.resp = self.client.get(resolve_url('app:chat', self.chat.hash_id),
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     def test_get(self):
@@ -41,7 +41,7 @@ class TestGet(TestCase):
         """Once user joins a chat, she should not see previous messages"""
         json_resp = self.resp.json()
         with self.subTest():
-            self.assertEqual(json_resp['chat']['id'], self.chat.pk)
+            self.assertEqual(json_resp['chat']['key'], self.chat.hash_id)
             self.assertEqual(json_resp['chat']['alias'], 'Geek')
             self.assertEqual(0, len(json_resp['messages']))
 
@@ -54,12 +54,12 @@ class TestGet(TestCase):
                                chat=self.chat, content='Hi')
         Message.objects.create(user=User.objects.get(pk=2),
                                chat=self.chat, content='Hi')
-        resp = self.client.get(resolve_url('app:chat', self.chat.pk),
+        resp = self.client.get(resolve_url('app:chat', self.chat.hash_id),
                                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         json_resp = resp.json()
         with self.subTest():
-            self.assertEqual(json_resp['chat']['id'], self.chat.pk)
+            self.assertEqual(json_resp['chat']['key'], self.chat.hash_id)
             self.assertEqual(json_resp['chat']['alias'], 'Geek')
             self.assertEqual(json_resp['chat']['user'], 'Olivia')
             self.assertEqual(3, len(json_resp['messages']))
@@ -82,7 +82,7 @@ class TestPost(TestCase):
         self.login = self.client.login(username='valentinavc',
                                        password='valentina')
         data = {'content': 'Hello, world', 'chat': self.chat.pk}
-        self.resp = self.client.post(resolve_url('app:chat', self.chat.pk),
+        self.resp = self.client.post(resolve_url('app:chat', self.chat.hash_id),
                                      data, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     def test_post(self):

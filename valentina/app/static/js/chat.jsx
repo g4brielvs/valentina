@@ -1,6 +1,7 @@
 const $ = require('jquery-browserify');
 const React = require('react');
 const ReactDOM = require('react-dom');
+const Isvg = require('react-inlinesvg');
 
 // Hash function to gnerate temporary message IDs
 
@@ -19,20 +20,31 @@ String.prototype.hashCode = function () {
 
 const ReportButton = React.createClass({
   handleReport: function (e) {
-    let pk = $(e.target).parent().parent().parent().parent().attr('id');
+
+    // flash id
+    let flashId = `report-${this.props.messageKey}`;
+
+    // show “sending report” message
+    let sending = document.createElement('div');
+    sending.setAttribute('class', 'flash-info');
+    sending.setAttribute('id', flashId);
+    sending.innerHTML = 'Aguarde, reportando a mensagem…';
+    document.body.appendChild(sending);
+
+    // send report
+    let key = this.props.messageKey;
     let url = '/app/report/';
     $.ajax({
       url: url,
       dataType: 'json',
       type: 'POST',
-      data: { pk: pk },
+      data: { key: this.props.messageKey },
       success: function (data) {
-        let flash = document.createElement('div');
+        let flash = document.getElementById(flashId);
         flash.setAttribute('class', 'flash-success');
         flash.innerHTML = 'Muito obrigado, você está ajudando a fazer a Valentina melhor!';
-        document.body.appendChild(flash);
         setTimeout(function () {
-          $('div.flash-success').fadeOut(345, function () {$(this).remove();});
+          $(flash).fadeOut(345, function () {$(this).remove();});
         }, 10000);
       }.bind(this),
       error: function (xhr, status, err) {
@@ -48,11 +60,9 @@ const ReportButton = React.createClass({
       );
     } else {
       return (
-        React.createElement('a', { className: 'report', title: 'Reportar', onClick: this.handleReport },
-          React.createElement('svg', { version: '1.1', x: '0px', y: '0px', viewBox:'0 0 16 16' },
-            React.createElement('path', { d: 'M15.9,15.1L8.4,2.3C8.3,2.1,8.2,2,8,2S7.6,2.1,7.6,2.3L0.1,15.2c-0.1,0.2-0.1,0.4,0,0.5C0.2,15.9,0.3,16,0.5,16h15 c0.3,0,0.5-0.2,0.5-0.5C16,15.3,16,15.2,15.9,15.1z M8.8,14H7.2v-1.5h1.6V14z M8.8,11.3H7.2V6.6h1.6V11.3z' })
-          )
-        )
+        <a onClick={this.handleReport}>
+          <Isvg src={this.props.svg}></Isvg>
+        </a>
       );
     }
   },
@@ -78,7 +88,11 @@ const ChatTimeline =  React.createClass({
             <li className={message.className} key={message.key}>
               <span className="author">
                 {message.author}
-                <ReportButton className={message.className} />
+                <ReportButton
+                  className={message.className}
+                  messageKey={message.key}
+                  svg={this.props.report}
+                />
               </span>
               <p>{message.content}</p>
               <span className="ago">{message.ago}</span>
@@ -191,7 +205,7 @@ const ChatBox = React.createClass({
     return (
       <section className="col chat">
         <ChatHeading chat={this.state.chat} />
-        <ChatTimeline messages={this.state.messages} />
+        <ChatTimeline messages={this.state.messages} report={this.props.report} />
         <ChatForm chat={this.state.chat} onMessageSubmit={this.handleMessageSubmit} />
       </section>
     );
@@ -200,14 +214,14 @@ const ChatBox = React.createClass({
 
 const ChatBoxes = React.createClass({
   getInitialState: function () {
-    return { chats: this.props.chats };
+    return { chats: this.props.chats, report: this.props.report };
   },
 
   render: function () {
     return (
       <div>
         {this.state.chats.map((chat) => (
-          <ChatBox key={chat.key} chat={chat} fetchInterval={3456} />
+          <ChatBox key={chat.key} chat={chat} report={this.state.report} fetchInterval={3456} />
         ))}
       </div>
     );
@@ -216,26 +230,15 @@ const ChatBoxes = React.createClass({
 
 // Get user chats and render ReactJS components
 
-const getChats = function () {
-  let chats = [];
-  $('li[chat_button]').each(function () {
-    chats.push({
-      key: this.dataset.key,
-      url: this.dataset.url,
-      active: this.dataset.active,
-    });
-  });
-
-  return chats;
-};
-
+const chatBoxesDOM = document.getElementById('chat_panels');
 const chatBoxes = ReactDOM.render(
-  <ChatBoxes chats={getChats()} />,
-  document.getElementById('chat_panels')
+  <ChatBoxes chats={[]} report={chatBoxesDOM.dataset.report} />,
+  chatBoxesDOM
 );
 
-// make render_chats available globally so users can add chat boxes from outside
-global.renderChats = function () {
-  let chats = getChats();
+// make render_chats available globally
+// (so loadChats, from facebook.jsx, can call it once user add/delete chats)
+
+global.renderChats = function (chats) {
   chatBoxes.setState({ chats: chats });
 };

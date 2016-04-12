@@ -24,8 +24,7 @@ def welcome(request):
     nickname = profile.nickname
     random_nickname = profile.create_nickname() if not nickname else None
 
-    context = {'chats': _affiliations_to_ctx(request.user),
-               'nickname': nickname, 'random_nickname': random_nickname}
+    context = {'nickname': nickname, 'random_nickname': random_nickname}
 
     return render(request, 'app/home.html', context)
 
@@ -116,11 +115,31 @@ def facebook(request):
     token = _get_token(request.user)
     person = GetFacebookData(form.cleaned_data.get('url'), token=token)
 
+    # check if user already tagged this person
+    chat = Chat.objects.filter(person=person.facebook_id).first()
+    args = {'chat': chat, 'user': request.user}
+    affiliation = Affiliation.objects.filter(**args).first()
+    if affiliation:
+        error = "Você já entrou na sala do(a) {} e a apelidou de “{}”."
+        name = person.data.get('name')
+        return JsonResponse({'error': error.format(name, affiliation.alias)})
+
     return JsonResponse(person.data)
 
 
 @login_required(login_url='/')
-def affiliation(request):
+def list_affiliations(request):
+
+    # abort if invalid request
+    should_abort = _should_abort(request, 'GET')
+    if should_abort:
+        return should_abort
+
+    return JsonResponse(dict(chats=_affiliations_to_ctx(request.user)))
+
+
+@login_required(login_url='/')
+def create_affiliation(request):
 
     # abort if invalid request
     should_abort = _should_abort(request, 'POST')

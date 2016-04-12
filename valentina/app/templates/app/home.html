@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% load static from staticfiles %}<!DOCTYPE html>
 <html lang="pt-br">
   <head>
     {% load static from staticfiles %}
@@ -17,8 +17,42 @@
   </head>
   <body>
 
-    {% include 'app/menu.html' %}
-    <div id="chat_panels"></div>
+    <main class="col{% if not nickname %} first_access{% endif %}">
+      
+      <nav class="app">
+        <div>
+          <h1>{% include 'home/svg/valentina.svg' %}</h1>
+          <ul>
+            <li><a href="#" id="preferences"  title="Preferências">{% include 'app/svg/preferences.svg' %}</a></li>
+            <li><a href="{% url 'app:logout' %}" title="Sair">{% include 'app/svg/logout.svg' %}</a></li>
+          </ul>
+        </div>
+      </nav><!-- end nav.app -->
+      
+      <form class="preferences" action="{% url 'app:profile' %}" method="post">
+        <h3>Preferências</h3>
+        <p>
+          <span>Aqui você é conhecida como</span>
+          <input name="nickname" type="text" value="{% firstof nickname random_nickname %}"> 
+        </p>
+        <p>
+          <button type="reset">Cancelar</button>
+          <button type="submit">Salvar</button>
+        </p>
+      </form>
+
+      <nav id="chat_list" data-search-url="{% url 'app:facebook' %}" data-join-url="{% url 'app:affiliation' %}" data-facebook="{% static 'img/facebook.svg' %}" data-magnifier="{% static 'img/magnifier.svg' %}"></nav>
+
+      <footer>
+        <ul>
+          <li><a href="#">Termos de Uso &amp; Privacidade</a></li>
+          <li><a href="#">Contato</a></li>
+        </ul>
+      </footer>
+
+    </main>
+
+    <div id="chat_panels" data-report="{% static 'img/report.svg' %}"></div>
 
     {% compress js %}
     <script async type="text/x-babel" src="{% static 'js/app.js' %}"></script> 

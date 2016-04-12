@@ -49,3 +49,34 @@ class TestPost(TestAffiliation):
     def test_affiliation_exists(self):
         self.assertTrue(Affiliation.objects.filter(user=self.user).exists())
 
+
+class TestGet(TestAffiliation):
+
+    def setUp(self):
+        super().setUp()
+        url = resolve_url('app:affiliations')
+        self.resp = self.client.get(url, **self.ajax)
+
+    def test_get(self):
+        with self.subTest():
+            self.assertTrue(self.login)
+            self.assertEqual(200, self.resp.status_code)
+
+    def test_type(self):
+        self.assertEqual('application/json', self.resp['Content-Type'])
+
+    def test_contents(self):
+        json_resp = self.resp.json()
+        chat = Chat.objects.first()
+        chat_url = resolve_url('app:chat', chat.hash_id)
+        affiliation = chat.affiliation_set.filter(user=self.user).first()
+        with self.subTest():
+            self.assertEqual(1, len(json_resp['chats']))
+            self.assertEqual(json_resp['chats'][0]['url'], chat_url)
+            self.assertEqual(json_resp['chats'][0]['key'], affiliation.hash_id)
+            self.assertEqual(json_resp['chats'][0]['alias'], 'Geek')
+            self.assertEqual(json_resp['chats'][0]['active'], True)
+            self.assertEqual(json_resp['chats'][0]['valentinas'], 3)
+
+    def test_affiliation_exists(self):
+        self.assertTrue(Affiliation.objects.filter(user=self.user).exists())
